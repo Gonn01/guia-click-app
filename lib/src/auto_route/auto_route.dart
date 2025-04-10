@@ -10,21 +10,20 @@ class AppRouter extends RootStackRouter {
   final AuthGuard authGuard = AuthGuard();
 
   @override
+  RouteType get defaultRouteType =>
+      RouteType.material(); //.cupertino, .adaptive ..etc
+
+  @override
   List<AutoRoute> get routes => [
-        AutoRoute(
-          path: '/',
-          page: RouteNothing.page,
-          initial: true,
-          guards: [authGuard],
-        ),
+        // AutoRoute(
+        //   path: '/',
+        //   page: RouteNothing.page,
+        //   guards: [authGuard],
+        // ),
         AutoRoute(
           page: RouteAuthController.page,
-          path: '/authentication',
+          path: '/auth-controller',
           children: [
-            AutoRoute(
-              page: RouteLogin.page,
-              path: 'auth-controller',
-            ),
             AutoRoute(
               page: RouteLogin.page,
               path: 'login',
@@ -38,6 +37,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           page: RouteVideo.page,
           path: '/video',
+          initial: true,
         ),
         AutoRoute(
           page: RouteHome.page,
