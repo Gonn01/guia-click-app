@@ -1,0 +1,6 @@
+{
+  "appTitle": "guia_click",
+  "@appTitle": {
+    "description": "The title of the application"
+  }
+}
