@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:guia_click/constants/colors.dart';
 import 'package:guia_click/gen/assets.gen.dart';
+import 'package:guia_click/src/auto_route/auto_route.gr.dart';
 import 'package:guia_click/widgets/text_with_background.dart';
 
 @RoutePage()
@@ -42,24 +43,27 @@ class PageVideo extends StatelessWidget {
                 ],
               ),
             ),
-            const Align(
+            Align(
               alignment: Alignment.bottomRight,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'SALTEAR ',
-                    style: TextStyle(
-                      color: GCColors.primary,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
+              child: GestureDetector(
+                onTap: () => context.router.replace(const RouteManual()),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'SALTEAR ',
+                      style: TextStyle(
+                        color: GCColors.primary,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                  Icon(
-                    Icons.arrow_forward,
-                    color: GCColors.primary,
-                  ),
-                ],
+                    Icon(
+                      Icons.arrow_forward,
+                      color: GCColors.primary,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

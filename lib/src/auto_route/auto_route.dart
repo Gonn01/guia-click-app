@@ -11,7 +11,7 @@ class AppRouter extends RootStackRouter {
 
   @override
   RouteType get defaultRouteType =>
-      RouteType.material(); //.cupertino, .adaptive ..etc
+      const RouteType.material(); //.cupertino, .adaptive ..etc
 
   @override
   List<AutoRoute> get routes => [
