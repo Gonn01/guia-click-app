@@ -102,18 +102,17 @@ class ViewManual extends StatelessWidget {
 }
 
 class PasoWidget extends StatelessWidget {
-  final int order;
-  final String title;
-  final String description;
-  final String imageUrl;
-
   const PasoWidget({
-    Key? key,
     required this.order,
     required this.title,
     required this.description,
     required this.imageUrl,
-  }) : super(key: key);
+    super.key,
+  });
+  final int order;
+  final String title;
+  final String description;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {

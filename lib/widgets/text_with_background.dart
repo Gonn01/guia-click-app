@@ -35,6 +35,7 @@ class TextWithBackground extends StatelessWidget {
             color: textColor,
             fontSize: fontSize,
             fontWeight: FontWeight.w600,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ),

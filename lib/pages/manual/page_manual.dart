@@ -6,8 +6,8 @@ import 'package:guia_click/pages/manual/views/view_manual.dart';
 
 @RoutePage()
 class PageManual extends StatelessWidget {
-  const PageManual({super.key});
-
+  const PageManual({super.key, required this.manualId});
+  final int manualId;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

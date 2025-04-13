@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i13;
+import 'package:flutter/material.dart' as _i14;
 import 'package:guia_click/pages/auth/login/page_login.dart' as _i6;
 import 'package:guia_click/pages/auth/page_auth_controller.dart' as _i1;
 import 'package:guia_click/pages/auth/register/page_register.dart' as _i10;
@@ -122,18 +123,39 @@ class RouteLogin extends _i13.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i7.PageManual]
-class RouteManual extends _i13.PageRouteInfo<void> {
-  const RouteManual({List<_i13.PageRouteInfo>? children})
-    : super(RouteManual.name, initialChildren: children);
+class RouteManual extends _i13.PageRouteInfo<RouteManualArgs> {
+  RouteManual({
+    _i14.Key? key,
+    required int manualId,
+    List<_i13.PageRouteInfo>? children,
+  }) : super(
+         RouteManual.name,
+         args: RouteManualArgs(key: key, manualId: manualId),
+         initialChildren: children,
+       );
 
   static const String name = 'RouteManual';
 
   static _i13.PageInfo page = _i13.PageInfo(
     name,
     builder: (data) {
-      return const _i7.PageManual();
+      final args = data.argsAs<RouteManualArgs>();
+      return _i7.PageManual(key: args.key, manualId: args.manualId);
     },
   );
+}
+
+class RouteManualArgs {
+  const RouteManualArgs({this.key, required this.manualId});
+
+  final _i14.Key? key;
+
+  final int manualId;
+
+  @override
+  String toString() {
+    return 'RouteManualArgs{key: $key, manualId: $manualId}';
+  }
 }
 
 /// generated route for

@@ -16,11 +16,15 @@ class $AssetsImagesGen {
   AssetGenImage get flutterLogo =>
       const AssetGenImage('assets/images/flutter_logo.png');
 
+  /// File path: assets/images/guia_click_logo.png
+  AssetGenImage get guiaClickLogo =>
+      const AssetGenImage('assets/images/guia_click_logo.png');
+
   /// File path: assets/images/youtube.png
   AssetGenImage get youtube => const AssetGenImage('assets/images/youtube.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [flutterLogo, youtube];
+  List<AssetGenImage> get values => [flutterLogo, guiaClickLogo, youtube];
 }
 
 class Assets {

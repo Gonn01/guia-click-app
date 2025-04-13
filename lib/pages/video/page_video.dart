@@ -46,7 +46,7 @@ class PageVideo extends StatelessWidget {
             Align(
               alignment: Alignment.bottomRight,
               child: GestureDetector(
-                onTap: () => context.router.replace(const RouteManual()),
+                onTap: () => context.router.replace(const RouteHome()),
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
