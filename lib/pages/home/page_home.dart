@@ -2,7 +2,7 @@ import 'package:algolia_helper_flutter/algolia_helper_flutter.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:guia_click/gen/assets.gen.dart';
-import 'package:guia_click/main%20copy.dart';
+import 'package:guia_click/models/manual.dart';
 import 'package:guia_click/src/auto_route/auto_route.gr.dart';
 import 'package:guia_click/widgets/text_with_background.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -61,54 +61,56 @@ class ViewHome extends StatefulWidget {
 }
 
 class _ViewHomeState extends State<ViewHome> {
-  final _searchTextController = TextEditingController();
+  final TextEditingController _searchTextController = TextEditingController();
 
-  final _productsSearcher = HitsSearcher(
-    applicationID: 'latency',
-    apiKey: '927c3fe76d4b52c5a2912973f35a3077',
-    indexName: 'STAGING_native_ecom_demo_products',
+  // Initialize the Algolia searcher with your credentials and your index name.
+  final HitsSearcher _manualsSearcher = HitsSearcher(
+    applicationID: 'IQD8SWQI6A',
+    apiKey: 'bdca1a0ef1aa36eb8f91a9cb7725a60e',
+    indexName: 'movies_index',
   );
 
-  Stream<HitsPage> get _searchPage =>
-      _productsSearcher.responses.map(HitsPage.fromResponse);
+  /// Creates a stream mapping search responses to a page of Manuals.
+  Stream<HitsPageManual> get _searchPage =>
+      _manualsSearcher.responses.map(HitsPageManual.fromResponse);
 
-  final _filterState = FilterState();
-
-  late final _facetList = _productsSearcher.buildFacetList(
-    filterState: _filterState,
-    attribute: 'brand',
+  /// Paging state is used for the infinite scrolling list.
+  PagingState<int, Manual> _pagingState = PagingState(
+    hasNextPage: true,
+    isLoading: false,
   );
-
-  PagingState<int, Product> _pagingState = PagingState();
 
   @override
   void initState() {
     super.initState();
 
-    _searchTextController.addListener(
-      () => _productsSearcher.applyState(
+    // Listen to text changes and trigger a new search; page resets to 0 on new query.
+    _searchTextController.addListener(() {
+      _manualsSearcher.applyState(
         (state) => state.copyWith(
           query: _searchTextController.text,
           page: 0,
         ),
-      ),
-    );
-
-    _searchPage.listen((page) {
-      setState(() {
-        _pagingState = _pagingState.copyWith(
-          pages: page.pageKey == 0
-              ? [page.items]
-              : [...?_pagingState.pages, page.items],
-          keys: page.pageKey == 0
-              ? [page.pageKey]
-              : [...?_pagingState.keys, page.pageKey],
-          hasNextPage: !page.isLastPage,
-          isLoading: false,
-        );
-      });
+      );
     });
-    _productsSearcher.connectFilterState(_filterState);
+
+    // Listen to search responses and update the pagination state.
+    _searchPage.listen(
+      (page) {
+        setState(() {
+          _pagingState = _pagingState.copyWith(
+            pages: page.pageKey == 0
+                ? [page.items]
+                : [...?_pagingState.pages, page.items],
+            keys: page.pageKey == 0
+                ? [page.pageKey]
+                : [...?_pagingState.keys, page.pageKey],
+            hasNextPage: !page.isLastPage,
+            isLoading: false,
+          );
+        });
+      },
+    );
   }
 
   @override
@@ -162,16 +164,16 @@ class _ViewHomeState extends State<ViewHome> {
             Expanded(
               child: Container(
                 margin: const EdgeInsets.all(20),
-                child: PagedListView<int, Product>(
+                child: PagedListView<int, Manual>(
                   state: _pagingState,
                   fetchNextPage: () async {
-                    _productsSearcher.applyState(
+                    _manualsSearcher.applyState(
                       (state) => state.copyWith(
                         page: (_pagingState.keys?.last ?? -1) + 1,
                       ),
                     );
                   },
-                  builderDelegate: PagedChildBuilderDelegate<Product>(
+                  builderDelegate: PagedChildBuilderDelegate<Manual>(
                     noItemsFoundIndicatorBuilder: (_) => const Center(
                       child: Text('No results found'),
                     ),
@@ -206,7 +208,7 @@ class _ViewHomeState extends State<ViewHome> {
                                       Expanded(
                                         child: TextWithBackground(
                                           margin: EdgeInsets.zero,
-                                          text: item.name,
+                                          text: item.title,
                                           padding: const EdgeInsets.all(5),
                                           fontSize: 15,
                                         ),
@@ -214,10 +216,9 @@ class _ViewHomeState extends State<ViewHome> {
                                     ],
                                   ),
                                   const SizedBox(height: 15),
-                                  const Text(
-                                    'Lorem ipsum dolor sit amet, consectetur '
-                                    'adipiscing elitasdasdasdasds.',
-                                    style: TextStyle(
+                                  Text(
+                                    item.description,
+                                    style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -242,17 +243,32 @@ class _ViewHomeState extends State<ViewHome> {
   @override
   void dispose() {
     _searchTextController.dispose();
-    _productsSearcher.dispose();
-    _filterState.dispose();
-    _facetList.dispose();
     super.dispose();
   }
 }
 
+/// A simple class to hold search metadata from the Algolia response.
 class SearchMetadata {
+  final int nbHits;
   const SearchMetadata(this.nbHits);
 
   factory SearchMetadata.fromResponse(SearchResponse response) =>
       SearchMetadata(response.nbHits);
-  final int nbHits;
+}
+
+class HitsPageManual {
+  final List<Manual> items;
+  final int pageKey;
+  final int? nextPageKey;
+  final bool isLastPage;
+
+  const HitsPageManual(
+      this.items, this.pageKey, this.nextPageKey, this.isLastPage);
+
+  factory HitsPageManual.fromResponse(SearchResponse response) {
+    final items = response.hits.map(Manual.fromJson).toList();
+    final isLastPage = response.page + 1 >= response.nbPages;
+    final nextPageKey = isLastPage ? null : response.page + 1;
+    return HitsPageManual(items, response.page, nextPageKey, isLastPage);
+  }
 }

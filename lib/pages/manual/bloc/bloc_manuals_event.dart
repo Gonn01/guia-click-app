@@ -11,4 +11,8 @@ abstract class BlocManualEvent {
 /// {@template BlocDrawerEventCheckManual}
 /// Check the pending tasks of the user.
 /// {@endtemplate}
-class BlocManualEventInitialize extends BlocManualEvent {}
+class BlocManualEventInitialize extends BlocManualEvent {
+  /// {@macro BlocDrawerEventCheckManual}
+  const BlocManualEventInitialize(this.id);
+  final int id;
+}

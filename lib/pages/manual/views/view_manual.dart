@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:guia_click/models/rating.dart';
 import 'package:guia_click/pages/manual/bloc/bloc_manuals.dart';
 import 'package:guia_click/widgets/rating.dart';
 import 'package:guia_click/widgets/text_with_background.dart';
@@ -91,7 +90,7 @@ class ViewManual extends StatelessWidget {
                 const TextWithBackground(text: 'Otras opiniones'),
                 ...state.ratings.map(
                   (rating) => RatingWidget(rating: rating),
-                )
+                ),
               ],
             );
           },
@@ -119,7 +118,7 @@ class PasoWidget extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

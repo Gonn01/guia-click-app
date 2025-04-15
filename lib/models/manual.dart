@@ -3,6 +3,7 @@ class Manual {
     required this.id,
     required this.title,
     required this.description,
+    required this.image,
     required this.public,
     required this.createdBy,
     required this.createdAt,
@@ -14,6 +15,7 @@ class Manual {
       id: json['id'] as int,
       title: json['title'] as String,
       description: json['description'] as String,
+      image: json['image'] as String,
       public: json['public'] as bool,
       createdBy: json['created_by'] as int,
       createdAt: DateTime.parse(json['created_at'] as String),
@@ -28,6 +30,7 @@ class Manual {
       'id': id,
       'title': title,
       'description': description,
+      'image': image,
       'public': public,
       'created_by': createdBy,
       'created_at': createdAt.toIso8601String(),
@@ -38,6 +41,7 @@ class Manual {
   final int id;
   final String title;
   final String description;
+  final String image;
   final bool public;
   final int createdBy;
   final DateTime createdAt;
@@ -47,6 +51,7 @@ class Manual {
     int? id,
     String? title,
     String? description,
+    String? image,
     bool? public,
     int? createdBy,
     DateTime? createdAt,
@@ -56,6 +61,7 @@ class Manual {
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
+      image: image ?? this.image,
       public: public ?? this.public,
       createdBy: createdBy ?? this.createdBy,
       createdAt: createdAt ?? this.createdAt,

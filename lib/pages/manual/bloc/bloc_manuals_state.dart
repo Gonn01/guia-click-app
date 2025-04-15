@@ -52,7 +52,8 @@ class BlocManualStateLoading extends BlocManualState {
 /// {@endtemplate}
 class BlocManualStateError extends BlocManualState {
   /// {@macro BlocDrawerStateError}
-  BlocManualStateError.from(super.previusState) : super.from();
+  BlocManualStateError.from(super.previusState, this.error) : super.from();
+  final String error;
 }
 
 /// {@template BlocDrawerStateSuccess}

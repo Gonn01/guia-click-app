@@ -11,7 +11,8 @@ class PageManual extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => BlocManual()..add(BlocManualEventInitialize()),
+      create: (context) =>
+          BlocManual()..add(BlocManualEventInitialize(manualId)),
       child: const ViewManual(),
     );
   }
