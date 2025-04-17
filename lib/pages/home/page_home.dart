@@ -110,6 +110,10 @@ class _ViewHomeState extends State<ViewHome> {
           );
         });
       },
+      onError: (dynamic error) {
+        setState(() => _pagingState = _pagingState.copyWith(error: error));
+        print("Error en Algolia: $error");
+      },
     );
   }
 
@@ -193,7 +197,7 @@ class _ViewHomeState extends State<ViewHome> {
                             SizedBox(
                               width: 120,
                               child: Image.network(
-                                item.image,
+                                item.image ?? 'https://via.placeholder.com/100',
                                 width: 100,
                                 height: 100,
                               ),
@@ -208,7 +212,7 @@ class _ViewHomeState extends State<ViewHome> {
                                       Expanded(
                                         child: TextWithBackground(
                                           margin: EdgeInsets.zero,
-                                          text: item.title,
+                                          text: item.title ?? 'No title',
                                           padding: const EdgeInsets.all(5),
                                           fontSize: 15,
                                         ),
@@ -217,7 +221,7 @@ class _ViewHomeState extends State<ViewHome> {
                                   ),
                                   const SizedBox(height: 15),
                                   Text(
-                                    item.description,
+                                    item.description ?? 'No description',
                                     style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,

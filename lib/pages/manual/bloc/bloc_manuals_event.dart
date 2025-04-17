@@ -16,3 +16,9 @@ class BlocManualEventInitialize extends BlocManualEvent {
   const BlocManualEventInitialize(this.id);
   final int id;
 }
+
+class BlocManualEventTurnFavorite extends BlocManualEvent {
+  /// {@macro BlocDrawerEventCheckManual}
+  const BlocManualEventTurnFavorite(this.id);
+  final int id;
+}

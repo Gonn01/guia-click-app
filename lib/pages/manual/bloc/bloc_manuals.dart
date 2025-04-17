@@ -13,6 +13,7 @@ class BlocManual extends Bloc<BlocManualEvent, BlocManualState> {
   /// {@macro BlocManual}
   BlocManual() : super(BlocManualStateInitial()) {
     on<BlocManualEventInitialize>(_onInitialize);
+    on<BlocManualEventTurnFavorite>(_onTurnFavorite);
   }
   Future<void> _onInitialize(
     BlocManualEventInitialize event,
@@ -46,6 +47,18 @@ class BlocManual extends Bloc<BlocManualEvent, BlocManualState> {
           myRating: myRating,
         ),
       );
+    } on Exception catch (e) {
+      emit(BlocManualStateError.from(state, e.toString()));
+    }
+  }
+
+  Future<void> _onTurnFavorite(
+    BlocManualEventTurnFavorite event,
+    Emitter<BlocManualState> emit,
+  ) async {
+    emit(BlocManualStateLoading.from(state));
+    try {
+      final manualResponse = await ManualRepository.turnFavorite(event.id);
     } on Exception catch (e) {
       emit(BlocManualStateError.from(state, e.toString()));
     }

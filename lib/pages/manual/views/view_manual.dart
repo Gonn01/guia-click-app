@@ -87,7 +87,8 @@ class ViewManual extends StatelessWidget {
                   )
                 else
                   const TextWithBackground(text: '+ Agregar opinión'),
-                const TextWithBackground(text: 'Otras opiniones'),
+                if (state.ratings.isNotEmpty)
+                  const TextWithBackground(text: 'Otras opiniones'),
                 ...state.ratings.map(
                   (rating) => RatingWidget(rating: rating),
                 ),

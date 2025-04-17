@@ -11,17 +11,25 @@ class Manual {
   });
 
   factory Manual.fromJson(Map<String, dynamic> json) {
+    print(json);
     return Manual(
-      id: json['id'] as int,
-      title: json['title'] as String,
-      description: json['description'] as String,
-      image: json['image'] as String,
-      public: json['public'] as bool,
-      createdBy: json['created_by'] as int,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      steps: (json['steps'] as List<dynamic>)
-          .map((e) => ManualStep.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      id: json['id'] == null ? null : json['id'] as int,
+      title: json['title'] == null ? null : json['title'] as String,
+      description:
+          json['description'] == null ? null : json['description'] as String,
+      image: json['image'] == null
+          ? 'https://ugc.production.linktr.ee/11a42626-18c5-48c0-802f-328d410fedc5_---.png?io=true&size=thumbnail-stack-v1_0'
+          : json['image'] as String,
+      public: json['public'] == null ? null : json['public'] as bool,
+      createdBy: json['created_by'] == null ? null : json['created_by'] as int,
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      steps: json['steps'] != null
+          ? (json['steps'] as List)
+              .map((e) => ManualStep.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : [],
     );
   }
 
@@ -33,18 +41,18 @@ class Manual {
       'image': image,
       'public': public,
       'created_by': createdBy,
-      'created_at': createdAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
       'steps': steps.map((e) => e.toJson()).toList(),
     };
   }
 
-  final int id;
-  final String title;
-  final String description;
-  final String image;
-  final bool public;
-  final int createdBy;
-  final DateTime createdAt;
+  final int? id;
+  final String? title;
+  final String? description;
+  final String? image;
+  final bool? public;
+  final int? createdBy;
+  final DateTime? createdAt;
   final List<ManualStep> steps;
 
   Manual copyWith({

@@ -6,13 +6,37 @@ abstract class ManualRepository {
   static Future<ResponseLD<Manual>> getManualById(int id) async {
     final response = await Repository.get<Manual>(
       url: 'http://10.0.2.2:3000/.netlify/functions/server/api/manuales/$id',
-      fromJson: Manual.fromJson,
+      fromJson: (json) => Manual.fromJson(json['body'] as Map<String, dynamic>),
     );
 
     return response;
   }
 
   static Future<ResponseLD<List<Rating>>> getRatingsByManualId(int id) async {
+    final response = await Repository.get<List<Rating>>(
+      url:
+          'http://10.0.2.2:3000/.netlify/functions/server/api/valoraciones/manuales/$id',
+      fromJson: (json) => (json['body'] as List)
+          .map((e) => Rating.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+    return response;
+  }
+
+  static Future<ResponseLD<List<Rating>>> getIfFavorite(int id) async {
+    final response = await Repository.get<List<Rating>>(
+      url:
+          'http://10.0.2.2:3000/.netlify/functions/server/api/valoraciones/manuales/$id',
+      fromJson: (json) => (json['body'] as List)
+          .map((e) => Rating.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+    return response;
+  }
+
+  static Future<ResponseLD<List<Rating>>> turnFavorite(int id) async {
     final response = await Repository.get<List<Rating>>(
       url:
           'http://10.0.2.2:3000/.netlify/functions/server/api/valoraciones/manuales/$id',
