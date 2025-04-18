@@ -22,6 +22,7 @@ class ViewManual extends StatelessWidget {
         ),
         body: BlocBuilder<BlocManual, BlocManualState>(
           builder: (context, state) {
+            print(state.isFavorite);
             return ListView(
               children: [
                 Padding(
@@ -43,12 +44,30 @@ class ViewManual extends StatelessWidget {
                           text: state.manual?.title ?? 'Manual Title',
                         ),
                       ),
-                      RatingBar.readOnly(
-                        filledIcon: Icons.star,
-                        emptyIcon: Icons.star_border,
-                        maxRating: 1,
-                        size: 55,
-                        initialRating: state.myRating?.rating.toDouble() ?? 0,
+                      GestureDetector(
+                        onTap: () {
+                          if (!state.isFavorite) {
+                            context.read<BlocManual>().add(
+                                  BlocManualEventMarkAsFavorite(
+                                    state.manual?.id ?? 0,
+                                  ),
+                                );
+                          } else {
+                            context.read<BlocManual>().add(
+                                  BlocManualEventMarkAsUnFavorite(
+                                    state.manual?.id ?? 0,
+                                  ),
+                                );
+                          }
+                        },
+                        child: RatingBar.readOnly(
+                          filledIcon: Icons.star,
+                          emptyIcon: Icons.star_border,
+                          maxRating: 1,
+                          size: 55,
+                          initialRating: state.isFavorite ? 1 : 0,
+                          filledColor: Colors.yellow,
+                        ),
                       ),
                     ],
                   ),
@@ -63,15 +82,14 @@ class ViewManual extends StatelessWidget {
                 const TextWithBackground(
                   text: 'Pasos',
                 ),
-                ...state.manual?.steps.map(
-                      (step) => PasoWidget(
-                        order: step.order,
-                        title: step.title,
-                        description: step.description,
-                        imageUrl: step.image,
-                      ),
-                    ) ??
-                    [],
+                ...state.steps.map(
+                  (step) => PasoWidget(
+                    order: step.order,
+                    title: step.title,
+                    description: step.description,
+                    imageUrl: step.image,
+                  ),
+                ),
                 if (state.myRating != null)
                   Column(
                     children: [

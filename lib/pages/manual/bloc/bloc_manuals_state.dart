@@ -10,6 +10,7 @@ class BlocManualState {
     this.ratings = const <Rating>[],
     this.myRating,
     this.isFavorite = false,
+    this.steps = const <ManualStep>[],
   });
 
   /// Utilize the from constructor to create a new instance of the
@@ -21,16 +22,19 @@ class BlocManualState {
     List<Rating>? ratings,
     Rating? myRating,
     bool? isFavorite,
+    List<ManualStep>? steps,
   }) : this._(
           manual: manual ?? previousState.manual,
           ratings: ratings ?? previousState.ratings,
           myRating: myRating ?? previousState.myRating,
-          isFavorite: previousState.isFavorite,
+          isFavorite: isFavorite ?? previousState.isFavorite,
+          steps: steps ?? previousState.steps,
         );
 
   /// Returns the number of pending tasks.
   final Manual? manual;
   final List<Rating> ratings;
+  final List<ManualStep> steps;
   final Rating? myRating;
   final bool isFavorite;
 }
@@ -71,5 +75,6 @@ class BlocManualStateSuccess extends BlocManualState {
     super.ratings,
     super.myRating,
     super.isFavorite,
+    super.steps,
   }) : super.from();
 }

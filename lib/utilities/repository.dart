@@ -133,6 +133,48 @@ abstract class Repository {
       handleException(e, stackTrace);
     }
   }
+
+  static Future<ResponseLD<T>> delete<T>({
+    required String url,
+    required T Function(Map<String, dynamic>) fromJson,
+    Map<String, dynamic>? additionalKeys,
+  }) async {
+    final data = <String, dynamic>{};
+
+    if (additionalKeys != null) {
+      data.addAll(additionalKeys);
+    }
+
+    try {
+      final urlUri = Uri.parse(url);
+      final response = await http.delete(
+        urlUri,
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Authorization': token ?? '',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
+
+        final result = Repository.handleResponse(
+          response,
+          ResponseLD.fromJson(
+            jsonData,
+            (json) => fromJson(jsonData),
+          ),
+          jsonData,
+        );
+
+        return result;
+      } else {
+        throw Exception(response.body);
+      }
+    } catch (e, stackTrace) {
+      handleException(e, stackTrace);
+    }
+  }
 }
 
 /// {@template ResponseLD}
@@ -155,7 +197,7 @@ class ResponseLD<T> {
       return ResponseLD(
         success: json['success'] != null ? json['success'] as bool : null,
         body: json['body'] != null ? fromJsonT(json['body']) : null,
-        message: json['message'] as String,
+        message: json['message'] != null ? json['message'] as String : null,
       );
     } on CustomException catch (e) {
       throw CustomException(

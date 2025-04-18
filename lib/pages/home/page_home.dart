@@ -183,7 +183,7 @@ class _ViewHomeState extends State<ViewHome> {
                     ),
                     itemBuilder: (_, item, __) => GestureDetector(
                       onTap: () => context.router.push(
-                        RouteManual(manualId: 1),
+                        RouteManual(manualId: item.id ?? 0),
                       ),
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 20),

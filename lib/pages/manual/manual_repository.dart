@@ -12,7 +12,7 @@ abstract class ManualRepository {
     return response;
   }
 
-  static Future<ResponseLD<List<Rating>>> getRatingsByManualId(int id) async {
+  static Future<ResponseLD<List<Rating>>> getManualRatings(int id) async {
     final response = await Repository.get<List<Rating>>(
       url:
           'http://10.0.2.2:3000/.netlify/functions/server/api/valoraciones/manuales/$id',
@@ -24,27 +24,46 @@ abstract class ManualRepository {
     return response;
   }
 
-  static Future<ResponseLD<List<Rating>>> getIfFavorite(int id) async {
-    final response = await Repository.get<List<Rating>>(
+  static Future<ResponseLD<List<ManualStep>>> getManualSteps(int id) async {
+    final response = await Repository.get<List<ManualStep>>(
       url:
-          'http://10.0.2.2:3000/.netlify/functions/server/api/valoraciones/manuales/$id',
+          'http://10.0.2.2:3000/.netlify/functions/server/api/manuals/$id/steps',
       fromJson: (json) => (json['body'] as List)
-          .map((e) => Rating.fromJson(e as Map<String, dynamic>))
+          .map((e) => ManualStep.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
     return response;
   }
 
-  static Future<ResponseLD<List<Rating>>> turnFavorite(int id) async {
-    final response = await Repository.get<List<Rating>>(
+  static Future<ResponseLD<bool>> getIfFavorite(int id) async {
+    final userId = 1; // TODO: Cambiar por el id del usuario logueado
+    final response = await Repository.get<bool>(
       url:
-          'http://10.0.2.2:3000/.netlify/functions/server/api/valoraciones/manuales/$id',
-      fromJson: (json) => (json['body'] as List)
-          .map((e) => Rating.fromJson(e as Map<String, dynamic>))
-          .toList(),
+          'http://10.0.2.2:3000/.netlify/functions/server/api/users/$userId/favorites/$id/check',
+      fromJson: (json) => json['body'] as bool,
     );
 
+    return response;
+  }
+
+  static Future<ResponseLD<void>> markAsFavorite(int id) async {
+    final userId = 1; // TODO: Cambiar por el id del usuario logueado
+    final response = await Repository.post<void>(
+      url:
+          'http://10.0.2.2:3000/.netlify/functions/server/api/users/$userId/favorites/$id',
+      fromJson: (json) {},
+    );
+    return response;
+  }
+
+  static Future<ResponseLD<void>> markAsUnFavorite(int id) async {
+    final userId = 1; // TODO: Cambiar por el id del usuario logueado
+    final response = await Repository.delete<void>(
+      url:
+          'http://10.0.2.2:3000/.netlify/functions/server/api/users/$userId/favorites/$id',
+      fromJson: (json) {},
+    );
     return response;
   }
 }

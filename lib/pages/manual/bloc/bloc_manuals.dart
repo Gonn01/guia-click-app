@@ -13,7 +13,8 @@ class BlocManual extends Bloc<BlocManualEvent, BlocManualState> {
   /// {@macro BlocManual}
   BlocManual() : super(BlocManualStateInitial()) {
     on<BlocManualEventInitialize>(_onInitialize);
-    on<BlocManualEventTurnFavorite>(_onTurnFavorite);
+    on<BlocManualEventMarkAsFavorite>(_onMarkAsFavorite);
+    on<BlocManualEventMarkAsUnFavorite>(_onMarkAsUnFavorite);
   }
   Future<void> _onInitialize(
     BlocManualEventInitialize event,
@@ -23,7 +24,15 @@ class BlocManual extends Bloc<BlocManualEvent, BlocManualState> {
     try {
       final manualResponse = await ManualRepository.getManualById(event.id);
 
-      final ratingsResponse = await ManualRepository.getRatingsByManualId(
+      final ratingsResponse = await ManualRepository.getManualRatings(
+        manualResponse.body?.id ?? 0,
+      );
+
+      final steps = await ManualRepository.getManualSteps(
+        manualResponse.body?.id ?? 0,
+      );
+
+      final isFavorite = await ManualRepository.getIfFavorite(
         manualResponse.body?.id ?? 0,
       );
 
@@ -45,6 +54,8 @@ class BlocManual extends Bloc<BlocManualEvent, BlocManualState> {
           manual: manualResponse.body,
           ratings: ratings,
           myRating: myRating,
+          steps: steps.body ?? [],
+          isFavorite: isFavorite.body ?? false,
         ),
       );
     } on Exception catch (e) {
@@ -52,13 +63,37 @@ class BlocManual extends Bloc<BlocManualEvent, BlocManualState> {
     }
   }
 
-  Future<void> _onTurnFavorite(
-    BlocManualEventTurnFavorite event,
+  Future<void> _onMarkAsFavorite(
+    BlocManualEventMarkAsFavorite event,
     Emitter<BlocManualState> emit,
   ) async {
     emit(BlocManualStateLoading.from(state));
     try {
-      final manualResponse = await ManualRepository.turnFavorite(event.id);
+      await ManualRepository.markAsFavorite(event.id);
+      emit(
+        BlocManualStateSuccess.from(
+          state,
+          isFavorite: true,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(BlocManualStateError.from(state, e.toString()));
+    }
+  }
+
+  Future<void> _onMarkAsUnFavorite(
+    BlocManualEventMarkAsUnFavorite event,
+    Emitter<BlocManualState> emit,
+  ) async {
+    emit(BlocManualStateLoading.from(state));
+    try {
+      await ManualRepository.markAsUnFavorite(event.id);
+      emit(
+        BlocManualStateSuccess.from(
+          state,
+          isFavorite: false,
+        ),
+      );
     } on Exception catch (e) {
       emit(BlocManualStateError.from(state, e.toString()));
     }

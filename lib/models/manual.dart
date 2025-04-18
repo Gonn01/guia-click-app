@@ -7,7 +7,6 @@ class Manual {
     required this.public,
     required this.createdBy,
     required this.createdAt,
-    required this.steps,
   });
 
   factory Manual.fromJson(Map<String, dynamic> json) {
@@ -25,11 +24,6 @@ class Manual {
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
-      steps: json['steps'] != null
-          ? (json['steps'] as List)
-              .map((e) => ManualStep.fromJson(e as Map<String, dynamic>))
-              .toList()
-          : [],
     );
   }
 
@@ -42,7 +36,6 @@ class Manual {
       'public': public,
       'created_by': createdBy,
       'created_at': createdAt?.toIso8601String(),
-      'steps': steps.map((e) => e.toJson()).toList(),
     };
   }
 
@@ -53,7 +46,6 @@ class Manual {
   final bool? public;
   final int? createdBy;
   final DateTime? createdAt;
-  final List<ManualStep> steps;
 
   Manual copyWith({
     int? id,
@@ -63,7 +55,6 @@ class Manual {
     bool? public,
     int? createdBy,
     DateTime? createdAt,
-    List<ManualStep>? steps,
   }) {
     return Manual(
       id: id ?? this.id,
@@ -73,7 +64,6 @@ class Manual {
       public: public ?? this.public,
       createdBy: createdBy ?? this.createdBy,
       createdAt: createdAt ?? this.createdAt,
-      steps: steps ?? this.steps,
     );
   }
 }
