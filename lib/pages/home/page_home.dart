@@ -276,7 +276,7 @@ class HitsPageManual {
       this.items, this.pageKey, this.nextPageKey, this.isLastPage);
 
   factory HitsPageManual.fromResponse(SearchResponse response) {
-    final items = response.hits.map(Manual.fromAlgoliaJson).toList();
+    final items = response.hits.map(Manual.fromJson).toList();
     final isLastPage = response.page + 1 >= response.nbPages;
     final nextPageKey = isLastPage ? null : response.page + 1;
     return HitsPageManual(items, response.page, nextPageKey, isLastPage);

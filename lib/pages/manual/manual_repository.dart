@@ -95,4 +95,16 @@ abstract class ManualRepository {
     );
     return response;
   }
+
+  static Future<ResponseLD<List<Manual>>> getFavorites() async {
+    final userId = 1; // TODO: Cambiar por el id del usuario logueado
+    final response = await Repository.get<List<Manual>>(
+      url:
+          'http://10.0.2.2:3000/.netlify/functions/server/api/users/$userId/favorites',
+      fromJson: (json) => (json['body'] as List)
+          .map((e) => Manual.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+    return response;
+  }
 }

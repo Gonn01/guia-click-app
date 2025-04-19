@@ -10,7 +10,6 @@ class Manual {
   });
 
   factory Manual.fromJson(Map<String, dynamic> json) {
-    print(json);
     try {
       return Manual(
         id: json['id'] as int,
@@ -18,27 +17,11 @@ class Manual {
         description: json['description'] as String,
         image: json['image'] as String,
         public: json['public'] as bool,
-        createdBy: json['createdBy'] as int,
-        createdAt: DateTime.parse(json['createdAt'] as String),
+        createdBy: json['created_by'] as int,
+        createdAt: DateTime.parse(json['created_at'] as String),
       );
     } catch (e, st) {
       throw Exception('Error parsing Manual: $e $st $json');
-    }
-  }
-  factory Manual.fromAlgoliaJson(Map<String, dynamic> json) {
-    print(json);
-    try {
-      return Manual(
-        id: json['id'] as int,
-        title: json['title'] as String,
-        description: json['description'] as String,
-        image: json['image'] as String ?? '',
-        public: json['public'] as bool,
-        createdBy: json['createdBy'] as int,
-        createdAt: DateTime.parse(json['createdAt'] as String),
-      );
-    } catch (e) {
-      throw Exception('Error parsing Manual: $e');
     }
   }
 
