@@ -28,3 +28,19 @@ class BlocManualEventMarkAsUnFavorite extends BlocManualEvent {
   const BlocManualEventMarkAsUnFavorite(this.id);
   final int id;
 }
+
+class BlocManualsEventCreateRating extends BlocManualEvent {
+  /// {@macro BlocDrawerEventCheckManual}
+  const BlocManualsEventCreateRating({
+    required this.rating,
+    required this.comment,
+  });
+  final int rating;
+  final String comment;
+}
+
+class BlocManualsEventDeleteRating extends BlocManualEvent {
+  /// {@macro BlocDrawerEventCheckManual}
+  const BlocManualsEventDeleteRating(this.ratingId);
+  final int ratingId;
+}

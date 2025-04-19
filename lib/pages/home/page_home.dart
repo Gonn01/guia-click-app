@@ -183,7 +183,7 @@ class _ViewHomeState extends State<ViewHome> {
                     ),
                     itemBuilder: (_, item, __) => GestureDetector(
                       onTap: () => context.router.push(
-                        RouteManual(manualId: item.id ?? 0),
+                        RouteManual(manualId: item.id),
                       ),
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 20),
@@ -197,7 +197,7 @@ class _ViewHomeState extends State<ViewHome> {
                             SizedBox(
                               width: 120,
                               child: Image.network(
-                                item.image ?? 'https://via.placeholder.com/100',
+                                item.image,
                                 width: 100,
                                 height: 100,
                               ),
@@ -212,19 +212,25 @@ class _ViewHomeState extends State<ViewHome> {
                                       Expanded(
                                         child: TextWithBackground(
                                           margin: EdgeInsets.zero,
-                                          text: item.title ?? 'No title',
-                                          padding: const EdgeInsets.all(5),
+                                          text: item.title,
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 5,
+                                          ),
                                           fontSize: 15,
                                         ),
                                       ),
                                     ],
                                   ),
                                   const SizedBox(height: 15),
-                                  Text(
-                                    item.description ?? 'No description',
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: Text(
+                                      item.description,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -270,7 +276,7 @@ class HitsPageManual {
       this.items, this.pageKey, this.nextPageKey, this.isLastPage);
 
   factory HitsPageManual.fromResponse(SearchResponse response) {
-    final items = response.hits.map(Manual.fromJson).toList();
+    final items = response.hits.map(Manual.fromAlgoliaJson).toList();
     final isLastPage = response.page + 1 >= response.nbPages;
     final nextPageKey = isLastPage ? null : response.page + 1;
     return HitsPageManual(items, response.page, nextPageKey, isLastPage);

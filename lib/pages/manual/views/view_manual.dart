@@ -3,6 +3,8 @@ import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guia_click/pages/manual/bloc/bloc_manuals.dart';
+import 'package:guia_click/widgets/gc_dialogs.dart';
+import 'package:guia_click/widgets/ld_textfields.dart';
 import 'package:guia_click/widgets/rating.dart';
 import 'package:guia_click/widgets/text_with_background.dart';
 
@@ -20,7 +22,12 @@ class ViewManual extends StatelessWidget {
             child: const Icon(Icons.arrow_back_ios_new_rounded),
           ),
         ),
-        body: BlocBuilder<BlocManual, BlocManualState>(
+        body: BlocConsumer<BlocManual, BlocManualState>(
+          listener: (context, state) {
+            if (state is BlocManualStateSuccessCreatingRating) {
+              Navigator.of(context).pop();
+            }
+          },
           builder: (context, state) {
             print(state.isFavorite);
             return ListView(
@@ -44,6 +51,7 @@ class ViewManual extends StatelessWidget {
                           text: state.manual?.title ?? 'Manual Title',
                         ),
                       ),
+                      const SizedBox(width: 10),
                       GestureDetector(
                         onTap: () {
                           if (!state.isFavorite) {
@@ -100,11 +108,25 @@ class ViewManual extends StatelessWidget {
                           ),
                         ],
                       ),
-                      RatingWidget(rating: state.myRating!),
+                      RatingWidget(
+                        rating: state.myRating!,
+                        hasDelete: true,
+                      ),
                     ],
                   )
                 else
-                  const TextWithBackground(text: '+ Agregar opinión'),
+                  GestureDetector(
+                    onTap: () => showDialog<void>(
+                      context: context,
+                      builder: (_) => BlocProvider.value(
+                        value: context.read<BlocManual>(),
+                        child: NewWidget(
+                          manualId: state.manual?.id ?? 0,
+                        ),
+                      ),
+                    ),
+                    child: const TextWithBackground(text: '+ Agregar opinión'),
+                  ),
                 if (state.ratings.isNotEmpty)
                   const TextWithBackground(text: 'Otras opiniones'),
                 ...state.ratings.map(
@@ -115,6 +137,58 @@ class ViewManual extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+}
+
+class NewWidget extends StatefulWidget {
+  const NewWidget({
+    required this.manualId,
+    super.key,
+  });
+  final int manualId;
+
+  @override
+  State<NewWidget> createState() => _NewWidgetState();
+}
+
+class _NewWidgetState extends State<NewWidget> {
+  final _controller = TextEditingController();
+
+  int _rating = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return LDDialogs.actionRequest(
+      content: Column(
+        children: [
+          const TextWithBackground(
+            text: 'Califica el manual',
+            fontSize: 18,
+          ),
+          LDTextFormFields.description(
+            controller: _controller,
+            hintText: 'Escribe tu opinión',
+            maxLines: 5,
+          ),
+          const SizedBox(height: 10),
+          RatingBar(
+            filledIcon: Icons.star,
+            emptyIcon: Icons.star_border,
+            size: 55,
+            onRatingChanged: (value) {
+              _rating = value.toInt();
+            },
+          ),
+        ],
+      ),
+      onTapConfirm: () => context.read<BlocManual>().add(
+            BlocManualsEventCreateRating(
+              rating: _rating,
+              comment: _controller.text,
+            ),
+          ),
+      isEnabled: true,
     );
   }
 }

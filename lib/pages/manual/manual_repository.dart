@@ -66,4 +66,33 @@ abstract class ManualRepository {
     );
     return response;
   }
+
+  static Future<ResponseLD<Rating>> createRating({
+    required int userId,
+    required int manualId,
+    required int score,
+    required String comment,
+  }) async {
+    final response = await Repository.post<Rating>(
+      url: 'http://10.0.2.2:3000/.netlify/functions/server/api/ratings',
+      fromJson: (json) => Rating.fromJson(json['body'] as Map<String, dynamic>),
+      additionalKeys: {
+        'score': score,
+        'comment': comment,
+        'user_id': userId,
+        'manual_id': manualId,
+      },
+    );
+    return response;
+  }
+
+  static Future<ResponseLD<void>> deleteRating(int id) async {
+    final userId = 1; // TODO: Cambiar por el id del usuario logueado
+    final response = await Repository.delete<void>(
+      url:
+          'http://10.0.2.2:3000/.netlify/functions/server/api/ratings/$userId/$id',
+      fromJson: (json) {},
+    );
+    return response;
+  }
 }

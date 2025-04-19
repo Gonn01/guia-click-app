@@ -15,6 +15,8 @@ class BlocManual extends Bloc<BlocManualEvent, BlocManualState> {
     on<BlocManualEventInitialize>(_onInitialize);
     on<BlocManualEventMarkAsFavorite>(_onMarkAsFavorite);
     on<BlocManualEventMarkAsUnFavorite>(_onMarkAsUnFavorite);
+    on<BlocManualsEventCreateRating>(_onCreateRating);
+    on<BlocManualsEventDeleteRating>(_onDeleteRating);
   }
   Future<void> _onInitialize(
     BlocManualEventInitialize event,
@@ -94,6 +96,43 @@ class BlocManual extends Bloc<BlocManualEvent, BlocManualState> {
           isFavorite: false,
         ),
       );
+    } on Exception catch (e) {
+      emit(BlocManualStateError.from(state, e.toString()));
+    }
+  }
+
+  Future<void> _onCreateRating(
+    BlocManualsEventCreateRating event,
+    Emitter<BlocManualState> emit,
+  ) async {
+    emit(BlocManualStateLoading.from(state));
+    try {
+      final newRating = await ManualRepository.createRating(
+        userId: 1,
+        manualId: state.manual?.id ?? 0,
+        score: event.rating,
+        comment: event.comment,
+      );
+      emit(
+        BlocManualStateSuccessCreatingRating.from(
+          state,
+          myRating: newRating.body,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(BlocManualStateError.from(state, e.toString()));
+    }
+  }
+
+  Future<void> _onDeleteRating(
+    BlocManualsEventDeleteRating event,
+    Emitter<BlocManualState> emit,
+  ) async {
+    emit(BlocManualStateLoading.from(state));
+    try {
+      await ManualRepository.deleteRating(event.ratingId);
+      emit(
+          BlocManualStateSuccessCreatingRating.from(state, deleteRating: true));
     } on Exception catch (e) {
       emit(BlocManualStateError.from(state, e.toString()));
     }

@@ -4,11 +4,12 @@ import 'package:guia_click/constants/colors.dart';
 class TextWithBackground extends StatelessWidget {
   const TextWithBackground({
     required this.text,
-    this.fontSize = 30,
+    this.fontSize = 25,
     this.padding = const EdgeInsets.all(15),
     this.margin = const EdgeInsets.all(15),
     this.backgroundColor = GCColors.primary,
     this.textColor = Colors.white,
+    this.textAlign = TextAlign.start,
     super.key,
   });
   final String text;
@@ -17,6 +18,7 @@ class TextWithBackground extends StatelessWidget {
   final double fontSize;
   final Color backgroundColor;
   final Color textColor;
+  final TextAlign textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +32,11 @@ class TextWithBackground extends StatelessWidget {
         padding: padding,
         child: Text(
           text,
-          textAlign: TextAlign.center,
+          textAlign: textAlign,
           style: TextStyle(
             color: textColor,
             fontSize: fontSize,
             fontWeight: FontWeight.w600,
-            overflow: TextOverflow.ellipsis,
           ),
         ),
       ),

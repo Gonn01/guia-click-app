@@ -1,15 +1,20 @@
 // import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guia_click/extensions/date_time.dart';
 import 'package:guia_click/models/rating.dart';
+import 'package:guia_click/pages/manual/bloc/bloc_manuals.dart';
+import 'package:guia_click/widgets/gc_dialogs.dart';
 
 class RatingWidget extends StatelessWidget {
   const RatingWidget({
     required this.rating,
+    this.hasDelete = false,
     super.key,
   });
   final Rating rating;
+  final bool hasDelete;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,9 +48,37 @@ class RatingWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Text(
-                    rating.comment,
-                    textAlign: TextAlign.start,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          rating.comment,
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+                      if (hasDelete)
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          color: Colors.red,
+                          onPressed: () => showDialog<void>(
+                            context: context,
+                            builder: (_) => BlocProvider.value(
+                              value: context.read<BlocManual>(),
+                              child: LDDialogs.actionRequest(
+                                onTapConfirm: () =>
+                                    context.read<BlocManual>().add(
+                                          BlocManualsEventDeleteRating(
+                                            rating.id,
+                                          ),
+                                        ),
+                                isEnabled: true,
+                                content: Text('¿Eliminar la calificación?'),
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                 ),
                 Row(
@@ -56,7 +89,7 @@ class RatingWidget extends StatelessWidget {
                       size: 20,
                       filledIcon: Icons.star,
                       emptyIcon: Icons.star_border,
-                      initialRating: rating.rating.toDouble(),
+                      initialRating: rating.score.toDouble(),
                     ),
                   ],
                 ),

@@ -23,10 +23,11 @@ class BlocManualState {
     Rating? myRating,
     bool? isFavorite,
     List<ManualStep>? steps,
+    bool deleteRating = false,
   }) : this._(
           manual: manual ?? previousState.manual,
           ratings: ratings ?? previousState.ratings,
-          myRating: myRating ?? previousState.myRating,
+          myRating: deleteRating ? null : myRating ?? previousState.myRating,
           isFavorite: isFavorite ?? previousState.isFavorite,
           steps: steps ?? previousState.steps,
         );
@@ -76,5 +77,14 @@ class BlocManualStateSuccess extends BlocManualState {
     super.myRating,
     super.isFavorite,
     super.steps,
+  }) : super.from();
+}
+
+class BlocManualStateSuccessCreatingRating extends BlocManualState {
+  /// {@macro BlocDrawerStateSuccess}
+  BlocManualStateSuccessCreatingRating.from(
+    super.previusState, {
+    super.myRating,
+    super.deleteRating,
   }) : super.from();
 }

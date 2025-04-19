@@ -3,7 +3,7 @@ class Rating {
     required this.id,
     required this.userId,
     required this.manualId,
-    required this.rating,
+    required this.score,
     required this.comment,
     required this.createdAt,
   });
@@ -13,7 +13,7 @@ class Rating {
       id: json['id'] as int,
       userId: json['user_id'] as int,
       manualId: json['manual_id'] as int,
-      rating: json['rating'] as int,
+      score: json['score'] as int,
       comment: json['comment'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
     );
@@ -24,7 +24,7 @@ class Rating {
       'id': id,
       'user_id': userId,
       'manual_id': manualId,
-      'rating': rating,
+      'score': score,
       'comment': comment,
       'created_at': createdAt.toIso8601String(),
     };
@@ -33,7 +33,7 @@ class Rating {
   final int id;
   final int userId;
   final int manualId;
-  final int rating;
+  final int score;
   final String comment;
   final DateTime createdAt;
 
@@ -41,7 +41,7 @@ class Rating {
     int? id,
     int? userId,
     int? manualId,
-    int? rating,
+    int? score,
     String? comment,
     DateTime? createdAt,
   }) {
@@ -49,7 +49,7 @@ class Rating {
       id: id ?? this.id,
       userId: userId ?? this.userId,
       manualId: manualId ?? this.manualId,
-      rating: rating ?? this.rating,
+      score: score ?? this.score,
       comment: comment ?? this.comment,
       createdAt: createdAt ?? this.createdAt,
     );
