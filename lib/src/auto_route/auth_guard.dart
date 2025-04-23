@@ -1,32 +1,28 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:guia_click/src/auto_route/auto_route.gr.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// {@template AuthGuard}
 /// Guarda de autenticación para proteger las rutas de la aplicación.
 /// {@endtemplate}
-class AuthGuard extends AutoRouteGuard {
+class TutorialGuard extends AutoRouteGuard {
   @override
   Future<void> onNavigation(
     NavigationResolver resolver,
     StackRouter router,
   ) async {
-    // final isarUser = await LocalStorage.getUser();
-    // final companyData = await LocalStorage.getCompanyData();
-
-    // final isLoggedIn = isarUser != null;
-    // final isIdentified = companyData != null;
-
-    // if (isIdentified && isLoggedIn) {
-    //   // Usuario identificado pero no logeado: redirige al dashboard.
-    //   await router.push(const RouteDashboard());
-    // } else if (isIdentified) {
-    //   // Usuario identificado pero no logeado: redirige al login.
-    //   await router.push(const RouteLogin());
-    //   // Opcional: Puedes cancelar la navegación original si es necesario.
-    //   // resolver.next(false);
-    // } else {
-    //   // Usuario no identificado: redirige a la identificación.
-    //   await router.push(const RouteIdentification());
-    //   // resolver.next(false);
-    // }
+    final preferences = await SharedPreferences.getInstance();
+    final isTutorialCompleted =
+        preferences.getBool('tutorial_completed') ?? false;
+    if (!isTutorialCompleted) {
+      // Si el tutorial ya se completó, permite la navegación a la ruta solicitada.
+      print('Tutorial completado: $isTutorialCompleted');
+      resolver.next();
+    } else {
+      // Si el tutorial no se ha completado, redirige al usuario al tutorial.
+      await router.replace(const RouteHome());
+      print('Tutorial no completado: $isTutorialCompleted');
+      resolver.next(false);
+    }
   }
 }

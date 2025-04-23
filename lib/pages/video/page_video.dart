@@ -4,6 +4,7 @@ import 'package:guia_click/constants/colors.dart';
 import 'package:guia_click/gen/assets.gen.dart';
 import 'package:guia_click/src/auto_route/auto_route.gr.dart';
 import 'package:guia_click/widgets/text_with_background.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @RoutePage()
 class PageVideo extends StatelessWidget {
@@ -46,7 +47,11 @@ class PageVideo extends StatelessWidget {
             Align(
               alignment: Alignment.bottomRight,
               child: GestureDetector(
-                onTap: () => context.router.replace(const RouteHome()),
+                onTap: () async {
+                  final preferences = await SharedPreferences.getInstance();
+                  await preferences.setBool('tutorial_completed', true);
+                  await context.router.replace(const RouteHome());
+                },
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

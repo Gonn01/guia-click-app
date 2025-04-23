@@ -7,7 +7,7 @@ import 'package:guia_click/src/auto_route/auto_route.gr.dart';
 ///
 class AppRouter extends RootStackRouter {
   ///
-  final AuthGuard authGuard = AuthGuard();
+  final TutorialGuard tutorial = TutorialGuard();
 
   @override
   RouteType get defaultRouteType =>
@@ -15,11 +15,6 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
-        // AutoRoute(
-        //   path: '/',
-        //   page: RouteNothing.page,
-        //   guards: [authGuard],
-        // ),
         AutoRoute(
           page: RouteAuthController.page,
           path: '/auth-controller',
@@ -38,6 +33,7 @@ class AppRouter extends RootStackRouter {
           page: RouteVideo.page,
           path: '/video',
           initial: true,
+          guards: [tutorial],
         ),
         AutoRoute(
           page: RouteHome.page,

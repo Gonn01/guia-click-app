@@ -1,11 +1,18 @@
 import 'package:algolia_helper_flutter/algolia_helper_flutter.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:guia_click/constants/colors.dart';
 import 'package:guia_click/gen/assets.gen.dart';
 import 'package:guia_click/models/manual.dart';
+import 'package:guia_click/pages/home/bloc/bloc_home.dart';
 import 'package:guia_click/src/auto_route/auto_route.gr.dart';
+import 'package:guia_click/widgets/gc_dialogs.dart';
+import 'package:guia_click/widgets/ld_buttons.dart';
 import 'package:guia_click/widgets/text_with_background.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:otp_pin_field/otp_pin_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @RoutePage()
 class PageHome extends StatelessWidget {
@@ -75,10 +82,7 @@ class _ViewHomeState extends State<ViewHome> {
       _manualsSearcher.responses.map(HitsPageManual.fromResponse);
 
   /// Paging state is used for the infinite scrolling list.
-  PagingState<int, Manual> _pagingState = PagingState(
-    hasNextPage: true,
-    isLoading: false,
-  );
+  PagingState<int, Manual> _pagingState = PagingState();
 
   @override
   void initState() {
@@ -112,139 +116,203 @@ class _ViewHomeState extends State<ViewHome> {
       },
       onError: (dynamic error) {
         setState(() => _pagingState = _pagingState.copyWith(error: error));
-        print("Error en Algolia: $error");
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: const Color(0xffEAEAEA),
-        appBar: AppBar(
+    return BlocProvider<BlocHome>(
+      create: (context) => BlocHome()..add(BlocHomeEventInitialize()),
+      child: SafeArea(
+        child: Scaffold(
           backgroundColor: const Color(0xffEAEAEA),
-          leading: GestureDetector(
-            onTap: () => context.router.push(const RouteFavorites()),
-            child: const Icon(
-              Icons.star,
-              color: Colors.amber,
-              size: 35,
-            ),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () => context.router.back(),
-              icon: const Icon(
-                Icons.menu,
+          appBar: AppBar(
+            backgroundColor: const Color(0xffEAEAEA),
+            leading: GestureDetector(
+              onTap: () => context.router.push(const RouteFavorites()),
+              child: const Icon(
+                Icons.star,
+                color: Colors.amber,
                 size: 35,
               ),
             ),
-          ],
-        ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Center(
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  padding: const EdgeInsets.all(25),
-                  decoration: const BoxDecoration(
-                    color: Color(0xffACBFC6),
-                    borderRadius: BorderRadius.all(Radius.circular(250)),
-                  ),
-                  child: Image.asset(Assets.images.guiaClickLogo.path),
+            actions: [
+              IconButton(
+                onPressed: () async {
+                  final preferences = await SharedPreferences.getInstance();
+                  await preferences.clear();
+                },
+                icon: const Icon(
+                  Icons.menu,
+                  size: 35,
                 ),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              child: SearchTextField(
-                controller: _searchTextController,
-              ),
-            ),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.all(20),
-                child: PagedListView<int, Manual>(
-                  state: _pagingState,
-                  fetchNextPage: () async {
-                    _manualsSearcher.applyState(
-                      (state) => state.copyWith(
-                        page: (_pagingState.keys?.last ?? -1) + 1,
-                      ),
-                    );
-                  },
-                  builderDelegate: PagedChildBuilderDelegate<Manual>(
-                    noItemsFoundIndicatorBuilder: (_) => const Center(
-                      child: Text('No results found'),
+            ],
+          ),
+          body: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Center(
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    padding: const EdgeInsets.all(25),
+                    decoration: const BoxDecoration(
+                      color: Color(0xffACBFC6),
+                      borderRadius: BorderRadius.all(Radius.circular(250)),
                     ),
-                    itemBuilder: (_, item, __) => GestureDetector(
-                      onTap: () => context.router.push(
-                        RouteManual(manualId: item.id),
-                      ),
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.white,
+                    child: Image.asset(Assets.images.guiaClickLogo.path),
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(8),
+                child: SearchTextField(
+                  controller: _searchTextController,
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.all(20),
+                  child: PagedListView<int, Manual>(
+                    state: _pagingState,
+                    fetchNextPage: () async {
+                      _manualsSearcher.applyState(
+                        (state) => state.copyWith(
+                          page: (_pagingState.keys?.last ?? -1) + 1,
                         ),
-                        padding: const EdgeInsets.all(8),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 120,
-                              child: Image.network(
-                                item.image,
-                                width: 100,
-                                height: 100,
+                      );
+                    },
+                    builderDelegate: PagedChildBuilderDelegate<Manual>(
+                      noItemsFoundIndicatorBuilder: (_) => const Center(
+                        child: Text('No results found'),
+                      ),
+                      itemBuilder: (_, item, __) => GestureDetector(
+                        onTap: () => context.router.push(
+                          RouteManual(manualId: item.id),
+                        ),
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.white,
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 120,
+                                child: Image.network(
+                                  item.image,
+                                  width: 100,
+                                  height: 100,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextWithBackground(
-                                          margin: EdgeInsets.zero,
-                                          text: item.title,
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 10,
-                                            vertical: 5,
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextWithBackground(
+                                            margin: EdgeInsets.zero,
+                                            text: item.title,
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                              vertical: 5,
+                                            ),
+                                            fontSize: 15,
                                           ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 15),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      child: Text(
+                                        item.description,
+                                        style: const TextStyle(
                                           fontSize: 15,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 15),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8),
-                                    child: Text(
-                                      item.description,
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600,
-                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    BlocConsumer<BlocHome, BlocHomeState>(
+                      listener: (context, state) {
+                        if (state is BlocHomeStateSuccessSavingCompanyCode) {
+                          Navigator.of(context).pop();
+                          context.router.push(const RouteMyCompany());
+                        }
+                      },
+                      builder: (context, state) {
+                        String? companyCode;
+                        return LDButtons.text(
+                          isEnabled: true,
+                          onTap: () {
+                            if (state.companyCode == null) {
+                              showDialog<void>(
+                                context: context,
+                                builder: (_) => LDDialogs.actionRequest(
+                                  onTapConfirm: () =>
+                                      context.read<BlocHome>().add(
+                                            BlocHomeEventSaveCompanyCode(
+                                              companyCode,
+                                            ),
+                                          ),
+                                  isEnabled: true,
+                                  title: 'Mi Empresa',
+                                  content: OtpPinField(
+                                    maxLength: 6,
+                                    fieldWidth: 20,
+                                    onSubmit: (text) {
+                                      companyCode = text;
+                                    },
+                                    onChange: (text) {
+                                      companyCode = text;
+                                    },
+                                  ),
+                                ),
+                              );
+                            } else {
+                              context.router.push(const RouteMyCompany());
+                            }
+                          },
+                          text: 'Ir a mi empresa',
+                          backgroundColor: GCColors.primary,
+                        );
+                      },
+                    ),
+                    LDButtons.text(
+                      isEnabled: true,
+                      onTap: () {},
+                      text: 'Mi Empresa',
+                      backgroundColor: GCColors.primary,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -273,7 +341,11 @@ class HitsPageManual {
   final bool isLastPage;
 
   const HitsPageManual(
-      this.items, this.pageKey, this.nextPageKey, this.isLastPage);
+    this.items,
+    this.pageKey,
+    this.nextPageKey,
+    this.isLastPage,
+  );
 
   factory HitsPageManual.fromResponse(SearchResponse response) {
     final items = response.hits.map(Manual.fromJson).toList();
