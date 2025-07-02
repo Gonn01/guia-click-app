@@ -72,8 +72,8 @@ class _ViewHomeState extends State<ViewHome> {
 
   // Initialize the Algolia searcher with your credentials and your index name.
   final HitsSearcher _manualsSearcher = HitsSearcher(
-    applicationID: 'IQD8SWQI6A',
-    apiKey: 'bdca1a0ef1aa36eb8f91a9cb7725a60e',
+    applicationID: 'P7ILDN8BXE',
+    apiKey: '211b2e615635e2fbb6695b8196c8b8b4',
     indexName: 'movies_index',
   );
 

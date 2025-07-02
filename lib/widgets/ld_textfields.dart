@@ -278,7 +278,7 @@ class LDTextFormFields extends StatelessWidget {
       initialValue: initialValue,
       decoration: decoration ??
           InputDecoration(
-            contentPadding: EdgeInsets.symmetric(
+            contentPadding: const EdgeInsets.symmetric(
               vertical: 10,
               horizontal: 10,
             ),
@@ -292,7 +292,7 @@ class LDTextFormFields extends StatelessWidget {
             hintStyle: const TextStyle(color: Colors.grey),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color: borderColor ?? Color(0xff00B3A3).withOpacity(.5),
+                color: borderColor ?? const Color(0xff00B3A3).withOpacity(.5),
               ),
               borderRadius: BorderRadius.circular(10),
             ),
@@ -311,7 +311,7 @@ class LDTextFormFields extends StatelessWidget {
             suffixIcon: suffixIcon,
             prefixIcon: prefixIcon != null
                 ? Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.min,
