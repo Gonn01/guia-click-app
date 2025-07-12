@@ -97,7 +97,7 @@ abstract class ManualRepository {
   }
 
   static Future<ResponseLD<List<Manual>>> getFavorites() async {
-    final userId = 1; // TODO: Cambiar por el id del usuario logueado
+    final userId = 2; // TODO: Cambiar por el id del usuario logueado
     final response = await Repository.get<List<Manual>>(
       url:
           'http://10.0.2.2:3000/.netlify/functions/server/api/users/$userId/favorites',

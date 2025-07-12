@@ -38,7 +38,7 @@ abstract class Repository {
     ResponseLD<T> fromJson,
     Map<String, dynamic> jsonData,
   ) {
-    if (response.statusCode != 200) {
+    if (response.statusCode != 200 && response.statusCode != 201) {
       throw CustomException(
         title: 'Error en la respuesta',
         message: 'Error HTTP ${response.statusCode}: ${jsonData['message']}',
@@ -71,7 +71,7 @@ abstract class Repository {
         body: jsonEncode(data),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
 
         final result = Repository.handleResponse(

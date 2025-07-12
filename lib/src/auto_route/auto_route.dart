@@ -16,23 +16,17 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
-          page: RouteAuthController.page,
-          path: '/auth-controller',
-          children: [
-            AutoRoute(
-              page: RouteLogin.page,
-              path: 'login',
-            ),
-            AutoRoute(
-              page: RouteRegister.page,
-              path: 'register',
-            ),
-          ],
+          page: RouteLogin.page,
+          path: '/login',
+        ),
+        AutoRoute(
+          page: RouteRegister.page,
+          path: '/register',
+          initial: true,
         ),
         AutoRoute(
           page: RouteVideo.page,
           path: '/video',
-          initial: true,
           guards: [tutorial],
         ),
         AutoRoute(
