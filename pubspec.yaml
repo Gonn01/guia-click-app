@@ -9,14 +9,18 @@ version: 1.0.0+1
 environment:
   sdk: ^3.6.1
 
+isar_version: &isar_version 3.1.0
+
 dependencies:
   algolia_helper_flutter: ^1.2.0
   algoliasearch: ^1.31.2
-  auto_route: ^10.0.1
+  auto_route: ^8.1.0
   bloc: ^9.0.0
   collection: ^1.19.0
   custom_rating_bar: ^3.0.0
   equatable: ^2.0.7
+  isar: *isar_version
+  isar_flutter_libs: *isar_version
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.0
@@ -30,8 +34,9 @@ dependencies:
   very_good_analysis: ^7.0.0
 
 dev_dependencies:
-  auto_route_generator: ^10.0.1
-  build_runner: ^2.4.15
+  auto_route_generator: ^8.0.0
+  build_runner: ^2.4.11
+  isar_generator: *isar_version
 
   flutter_lints: ^5.0.0
 
