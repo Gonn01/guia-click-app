@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guia_click/pages/auth_repository.dart';
-import 'package:guia_click/pages/register/bloc/register_event.dart';
-import 'package:guia_click/pages/register/bloc/register_state.dart';
+import 'package:guia_click/pages/auth/register/bloc/register_event.dart';
+import 'package:guia_click/pages/auth/register/bloc/register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc() : super(const RegisterState()) {

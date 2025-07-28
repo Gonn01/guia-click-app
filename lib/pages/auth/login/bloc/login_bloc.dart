@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guia_click/pages/auth_repository.dart';
-import 'package:guia_click/pages/login/bloc/login_event.dart';
-import 'package:guia_click/pages/login/bloc/login_state.dart';
+import 'package:guia_click/pages/auth/login/bloc/login_event.dart';
+import 'package:guia_click/pages/auth/login/bloc/login_state.dart';
 import 'package:guia_click/services/local_storage.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {

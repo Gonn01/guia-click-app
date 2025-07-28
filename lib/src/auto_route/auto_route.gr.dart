@@ -15,12 +15,12 @@ import 'package:guia_click/pages/company_configuration/page_company_configuratio
 import 'package:guia_click/pages/create_manual/page_create_manual.dart' as _i2;
 import 'package:guia_click/pages/favorites/page_favorites.dart' as _i3;
 import 'package:guia_click/pages/home/page_home.dart' as _i4;
-import 'package:guia_click/pages/login/page_login.dart' as _i5;
+import 'package:guia_click/pages/auth/login/page_login.dart' as _i5;
 import 'package:guia_click/pages/manual/page_manual.dart' as _i6;
 import 'package:guia_click/pages/my_company/page_my_company.dart' as _i7;
-import 'package:guia_click/pages/register/page_register.dart' as _i9;
+import 'package:guia_click/pages/auth/register/page_register.dart' as _i9;
 import 'package:guia_click/pages/search/page_search.dart' as _i10;
-import 'package:guia_click/pages/video/page_video.dart' as _i11;
+import 'package:guia_click/pages/auth/video/page_video.dart' as _i11;
 import 'package:guia_click/src/auto_route/nothing_page.dart' as _i8;
 
 abstract class $AppRouter extends _i12.RootStackRouter {
