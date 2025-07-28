@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:guia_click/pages/register/bloc/register_bloc.dart';
-import 'package:guia_click/pages/register/bloc/register_event.dart';
-import 'package:guia_click/pages/register/bloc/register_state.dart';
+import 'package:guia_click/pages/auth/register/bloc/register_bloc.dart';
+import 'package:guia_click/pages/auth/register/bloc/register_event.dart';
+import 'package:guia_click/pages/auth/register/bloc/register_state.dart';
 import 'package:guia_click/src/auto_route/auto_route.gr.dart';
 
 @RoutePage()
