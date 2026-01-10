@@ -17,7 +17,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         final response =
             await AuthRepository.login(state.email, state.password);
-        await LocalStorage.setUser(user: response.body!);
+        // await LocalStorage.setUser(user: response.body!);
         // if success:
         emit(state.copyWith(status: FormStatus.success));
       } on Exception catch (e) {
