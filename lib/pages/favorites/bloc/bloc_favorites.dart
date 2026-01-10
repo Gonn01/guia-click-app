@@ -19,7 +19,7 @@ class BlocFavorites extends Bloc<BlocFavoritesEvent, BlocFavoritesState> {
     emit(BlocFavoritesStateLoading.from(state));
     try {
       final manualResponse = await ManualRepository.getFavorites();
-
+      print(manualResponse);
       emit(
         BlocFavoritesStateSuccess.from(
           state,

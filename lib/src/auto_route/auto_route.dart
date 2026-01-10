@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:guia_click/src/auto_route/auth_guard.dart';
 import 'package:guia_click/src/auto_route/auto_route.gr.dart';
+import 'package:guia_click/src/auto_route/tutorial_guard.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page,Route')
 
@@ -9,20 +10,23 @@ class AppRouter extends RootStackRouter {
   ///
   final TutorialGuard tutorial = TutorialGuard();
 
+  ///
+  final AuthGuard authGuard = AuthGuard();
+
   @override
-  RouteType get defaultRouteType =>
-      const RouteType.material(); //.cupertino, .adaptive ..etc
+  RouteType get defaultRouteType => const RouteType.material();
 
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
           page: RouteLogin.page,
           path: '/login',
+          initial: true,
+          guards: [authGuard],
         ),
         AutoRoute(
           page: RouteRegister.page,
           path: '/register',
-          initial: true,
         ),
         AutoRoute(
           page: RouteVideo.page,

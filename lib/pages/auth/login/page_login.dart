@@ -38,6 +38,7 @@ class _LoginForm extends StatelessWidget {
           print('Login successful! Navigating to home page.');
         }
         if (state.status == FormStatus.failure) {
+          print('Login successful! Navigating to home pag2222.');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.errorMessage ?? 'Error')),
           );

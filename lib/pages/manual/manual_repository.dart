@@ -1,5 +1,6 @@
 import 'package:guia_click/models/manual.dart';
 import 'package:guia_click/models/rating.dart';
+import 'package:guia_click/services/local_storage.dart';
 import 'package:guia_click/utilities/repository.dart';
 
 abstract class ManualRepository {
@@ -35,9 +36,9 @@ abstract class ManualRepository {
   }
 
   static Future<ResponseLD<bool>> getIfFavorite(int id) async {
-    final userId = 1; // TODO: Cambiar por el id del usuario logueado
+    final user = await LocalStorage.getUser();
     final response = await Repository.get<bool>(
-      url: 'http://10.0.2.2:3000/api/users/$userId/favorites/$id/check',
+      url: 'http://10.0.2.2:3000/api/users/${user?.id}/favorites/$id/check',
       fromJson: (json) => json['body'] as bool,
     );
 
@@ -45,18 +46,18 @@ abstract class ManualRepository {
   }
 
   static Future<ResponseLD<void>> markAsFavorite(int id) async {
-    final userId = 1; // TODO: Cambiar por el id del usuario logueado
+    final user = await LocalStorage.getUser();
     final response = await Repository.post<void>(
-      url: 'http://10.0.2.2:3000/api/users/$userId/favorites/$id',
+      url: 'http://10.0.2.2:3000/api/users/${user?.id}/favorites/$id',
       fromJson: (json) {},
     );
     return response;
   }
 
   static Future<ResponseLD<void>> markAsUnFavorite(int id) async {
-    final userId = 1; // TODO: Cambiar por el id del usuario logueado
+    final user = await LocalStorage.getUser();
     final response = await Repository.delete<void>(
-      url: 'http://10.0.2.2:3000/api/users/$userId/favorites/$id',
+      url: 'http://10.0.2.2:3000/api/users/${user?.id}/favorites/$id',
       fromJson: (json) {},
     );
     return response;
@@ -82,18 +83,18 @@ abstract class ManualRepository {
   }
 
   static Future<ResponseLD<void>> deleteRating(int id) async {
-    final userId = 1; // TODO: Cambiar por el id del usuario logueado
+    final user = await LocalStorage.getUser();
     final response = await Repository.delete<void>(
-      url: 'http://10.0.2.2:3000/api/ratings/$userId/$id',
+      url: 'http://10.0.2.2:3000/api/ratings/${user?.id}/$id',
       fromJson: (json) {},
     );
     return response;
   }
 
   static Future<ResponseLD<List<Manual>>> getFavorites() async {
-    final userId = 2; // TODO: Cambiar por el id del usuario logueado
+    final user = await LocalStorage.getUser();
     final response = await Repository.get<List<Manual>>(
-      url: 'http://10.0.2.2:3000/api/users/$userId/favorites',
+      url: 'http://10.0.2.2:3000/api/users/${user?.id}/favorites',
       fromJson: (json) => (json['body'] as List)
           .map((e) => Manual.fromJson(e as Map<String, dynamic>))
           .toList(),

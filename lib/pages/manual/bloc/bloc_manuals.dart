@@ -71,6 +71,7 @@ class BlocManual extends Bloc<BlocManualEvent, BlocManualState> {
   ) async {
     emit(BlocManualStateLoading.from(state));
     try {
+      print("MARCO ${event.id}");
       await ManualRepository.markAsFavorite(event.id);
       emit(
         BlocManualStateSuccess.from(

@@ -1,3 +1,7 @@
+// ==========================
+// lib/models/manual.dart
+// (versión tolerante para Algolia)
+// ==========================
 class Manual {
   Manual({
     required this.id,
@@ -10,32 +14,53 @@ class Manual {
   });
 
   factory Manual.fromJson(Map<String, dynamic> json) {
-    try {
-      return Manual(
-        id: json['id'] as int,
-        title: json['title'] as String,
-        description: json['description'] as String,
-        image: json['image'] as String,
-        public: json['public'] as bool,
-        createdBy: json['created_by'] as int,
-        createdAt: DateTime.parse(json['created_at'] as String),
-      );
-    } catch (e, st) {
-      throw Exception('Error parsing Manual: $e $st $json');
+    int parseInt(dynamic v, {int fallback = 0}) {
+      if (v == null) return fallback;
+      if (v is int) return v;
+      if (v is num) return v.toInt();
+      if (v is String) return int.tryParse(v) ?? fallback;
+      return fallback;
     }
+
+    bool parseBool(dynamic v, {bool fallback = false}) {
+      if (v == null) return fallback;
+      if (v is bool) return v;
+      if (v is num) return v != 0;
+      if (v is String) {
+        final s = v.toLowerCase().trim();
+        return s == 'true' || s == '1' || s == 'yes';
+      }
+      return fallback;
+    }
+
+    DateTime parseDate(dynamic v) {
+      if (v is String)
+        return DateTime.tryParse(v) ?? DateTime.fromMillisecondsSinceEpoch(0);
+      return DateTime.fromMillisecondsSinceEpoch(0);
+    }
+
+    return Manual(
+      // Algolia a veces usa objectID además de id
+      id: parseInt(json['id'] ?? json['objectID']),
+      title: (json['title'] ?? '').toString(),
+      description: (json['description'] ?? '').toString(),
+      image: (json['image'] ?? '').toString(),
+      public: parseBool(json['public'], fallback: true),
+      // Puede no venir en Algolia (tenías author), queda 0
+      createdBy: parseInt(json['created_by'] ?? json['createdBy'], fallback: 0),
+      createdAt: parseDate(json['created_at']),
+    );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-      'image': image,
-      'public': public,
-      'created_by': createdBy,
-      'created_at': createdAt.toIso8601String(),
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'description': description,
+        'image': image,
+        'public': public,
+        'created_by': createdBy,
+        'created_at': createdAt.toIso8601String(),
+      };
 
   final int id;
   final String title;
@@ -44,26 +69,6 @@ class Manual {
   final bool public;
   final int createdBy;
   final DateTime createdAt;
-
-  Manual copyWith({
-    int? id,
-    String? title,
-    String? description,
-    String? image,
-    bool? public,
-    int? createdBy,
-    DateTime? createdAt,
-  }) {
-    return Manual(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      image: image ?? this.image,
-      public: public ?? this.public,
-      createdBy: createdBy ?? this.createdBy,
-      createdAt: createdAt ?? this.createdAt,
-    );
-  }
 }
 
 class ManualStep {

@@ -1,21 +1,22 @@
-// ignore_for_file: non_constant_identifier_names
+import 'package:isar_community/isar.dart';
+part 'isar_user.g.dart';
 
 /// {@template IsarUser}
 /// Isar collection for the user.
 /// {@endtemplate}
-// @collection
-// class IsarUser {
-//   /// The id of the collection
-//   Id id = 1;
+@collection
+class IsarUser {
+  /// The id of the collection
+  Id id = 1;
 
-//   /// The user
-//   User? user;
-// }
+  /// The user
+  User? user;
+}
 
 /// {@template User}
 /// Model that represents the user.
 /// {@endtemplate}
-// @embedded
+@embedded
 class User {
   /// {@macro User}
   User({
