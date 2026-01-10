@@ -5,7 +5,7 @@ import 'package:guia_click/utilities/repository.dart';
 abstract class ManualRepository {
   static Future<ResponseLD<Manual>> getManualById(int id) async {
     final response = await Repository.get<Manual>(
-      url: 'http://10.0.2.2:3000/.netlify/functions/server/api/manuales/$id',
+      url: 'http://10.0.2.2:3000/api/manuales/$id',
       fromJson: (json) => Manual.fromJson(json['body'] as Map<String, dynamic>),
     );
 
@@ -14,8 +14,7 @@ abstract class ManualRepository {
 
   static Future<ResponseLD<List<Rating>>> getManualRatings(int id) async {
     final response = await Repository.get<List<Rating>>(
-      url:
-          'http://10.0.2.2:3000/.netlify/functions/server/api/valoraciones/manuales/$id',
+      url: 'http://10.0.2.2:3000/api/valoraciones/manuales/$id',
       fromJson: (json) => (json['body'] as List)
           .map((e) => Rating.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -26,8 +25,7 @@ abstract class ManualRepository {
 
   static Future<ResponseLD<List<ManualStep>>> getManualSteps(int id) async {
     final response = await Repository.get<List<ManualStep>>(
-      url:
-          'http://10.0.2.2:3000/.netlify/functions/server/api/manuals/$id/steps',
+      url: 'http://10.0.2.2:3000/api/manuals/$id/steps',
       fromJson: (json) => (json['body'] as List)
           .map((e) => ManualStep.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -39,8 +37,7 @@ abstract class ManualRepository {
   static Future<ResponseLD<bool>> getIfFavorite(int id) async {
     final userId = 1; // TODO: Cambiar por el id del usuario logueado
     final response = await Repository.get<bool>(
-      url:
-          'http://10.0.2.2:3000/.netlify/functions/server/api/users/$userId/favorites/$id/check',
+      url: 'http://10.0.2.2:3000/api/users/$userId/favorites/$id/check',
       fromJson: (json) => json['body'] as bool,
     );
 
@@ -50,8 +47,7 @@ abstract class ManualRepository {
   static Future<ResponseLD<void>> markAsFavorite(int id) async {
     final userId = 1; // TODO: Cambiar por el id del usuario logueado
     final response = await Repository.post<void>(
-      url:
-          'http://10.0.2.2:3000/.netlify/functions/server/api/users/$userId/favorites/$id',
+      url: 'http://10.0.2.2:3000/api/users/$userId/favorites/$id',
       fromJson: (json) {},
     );
     return response;
@@ -60,8 +56,7 @@ abstract class ManualRepository {
   static Future<ResponseLD<void>> markAsUnFavorite(int id) async {
     final userId = 1; // TODO: Cambiar por el id del usuario logueado
     final response = await Repository.delete<void>(
-      url:
-          'http://10.0.2.2:3000/.netlify/functions/server/api/users/$userId/favorites/$id',
+      url: 'http://10.0.2.2:3000/api/users/$userId/favorites/$id',
       fromJson: (json) {},
     );
     return response;
@@ -74,7 +69,7 @@ abstract class ManualRepository {
     required String comment,
   }) async {
     final response = await Repository.post<Rating>(
-      url: 'http://10.0.2.2:3000/.netlify/functions/server/api/ratings',
+      url: 'http://10.0.2.2:3000/api/ratings',
       fromJson: (json) => Rating.fromJson(json['body'] as Map<String, dynamic>),
       additionalKeys: {
         'score': score,
@@ -89,8 +84,7 @@ abstract class ManualRepository {
   static Future<ResponseLD<void>> deleteRating(int id) async {
     final userId = 1; // TODO: Cambiar por el id del usuario logueado
     final response = await Repository.delete<void>(
-      url:
-          'http://10.0.2.2:3000/.netlify/functions/server/api/ratings/$userId/$id',
+      url: 'http://10.0.2.2:3000/api/ratings/$userId/$id',
       fromJson: (json) {},
     );
     return response;
@@ -99,8 +93,7 @@ abstract class ManualRepository {
   static Future<ResponseLD<List<Manual>>> getFavorites() async {
     final userId = 2; // TODO: Cambiar por el id del usuario logueado
     final response = await Repository.get<List<Manual>>(
-      url:
-          'http://10.0.2.2:3000/.netlify/functions/server/api/users/$userId/favorites',
+      url: 'http://10.0.2.2:3000/api/users/$userId/favorites',
       fromJson: (json) => (json['body'] as List)
           .map((e) => Manual.fromJson(e as Map<String, dynamic>))
           .toList(),
