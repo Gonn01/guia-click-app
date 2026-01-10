@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
@@ -23,152 +24,84 @@ import 'package:guia_click/pages/my_company/page_my_company.dart' as _i7;
 import 'package:guia_click/pages/search/page_search.dart' as _i10;
 import 'package:guia_click/src/auto_route/nothing_page.dart' as _i8;
 
-abstract class $AppRouter extends _i12.RootStackRouter {
-  $AppRouter({super.navigatorKey});
-
-  @override
-  final Map<String, _i12.PageFactory> pagesMap = {
-    RouteCompanyConfiguration.name: (routeData) {
-      return _i12.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i1.PageCompanyConfiguration(),
-      );
-    },
-    RouteCreateManual.name: (routeData) {
-      return _i12.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i2.PageCreateManual(),
-      );
-    },
-    RouteFavorites.name: (routeData) {
-      return _i12.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i3.PageFavorites(),
-      );
-    },
-    RouteHome.name: (routeData) {
-      return _i12.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i4.PageHome(),
-      );
-    },
-    RouteLogin.name: (routeData) {
-      return _i12.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i5.PageLogin(),
-      );
-    },
-    RouteManual.name: (routeData) {
-      final args = routeData.argsAs<RouteManualArgs>();
-      return _i12.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: _i6.PageManual(
-          key: args.key,
-          manualId: args.manualId,
-        ),
-      );
-    },
-    RouteMyCompany.name: (routeData) {
-      return _i12.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i7.PageMyCompany(),
-      );
-    },
-    RouteNothing.name: (routeData) {
-      return _i12.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i8.PageNothing(),
-      );
-    },
-    RouteRegister.name: (routeData) {
-      return _i12.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i9.PageRegister(),
-      );
-    },
-    RouteSearch.name: (routeData) {
-      return _i12.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i10.PageSearch(),
-      );
-    },
-    RouteVideo.name: (routeData) {
-      return _i12.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i11.PageVideo(),
-      );
-    },
-  };
-}
-
 /// generated route for
 /// [_i1.PageCompanyConfiguration]
 class RouteCompanyConfiguration extends _i12.PageRouteInfo<void> {
   const RouteCompanyConfiguration({List<_i12.PageRouteInfo>? children})
-      : super(
-          RouteCompanyConfiguration.name,
-          initialChildren: children,
-        );
+      : super(RouteCompanyConfiguration.name, initialChildren: children);
 
   static const String name = 'RouteCompanyConfiguration';
 
-  static const _i12.PageInfo<void> page = _i12.PageInfo<void>(name);
+  static _i12.PageInfo page = _i12.PageInfo(
+    name,
+    builder: (data) {
+      return const _i1.PageCompanyConfiguration();
+    },
+  );
 }
 
 /// generated route for
 /// [_i2.PageCreateManual]
 class RouteCreateManual extends _i12.PageRouteInfo<void> {
   const RouteCreateManual({List<_i12.PageRouteInfo>? children})
-      : super(
-          RouteCreateManual.name,
-          initialChildren: children,
-        );
+      : super(RouteCreateManual.name, initialChildren: children);
 
   static const String name = 'RouteCreateManual';
 
-  static const _i12.PageInfo<void> page = _i12.PageInfo<void>(name);
+  static _i12.PageInfo page = _i12.PageInfo(
+    name,
+    builder: (data) {
+      return const _i2.PageCreateManual();
+    },
+  );
 }
 
 /// generated route for
 /// [_i3.PageFavorites]
 class RouteFavorites extends _i12.PageRouteInfo<void> {
   const RouteFavorites({List<_i12.PageRouteInfo>? children})
-      : super(
-          RouteFavorites.name,
-          initialChildren: children,
-        );
+      : super(RouteFavorites.name, initialChildren: children);
 
   static const String name = 'RouteFavorites';
 
-  static const _i12.PageInfo<void> page = _i12.PageInfo<void>(name);
+  static _i12.PageInfo page = _i12.PageInfo(
+    name,
+    builder: (data) {
+      return const _i3.PageFavorites();
+    },
+  );
 }
 
 /// generated route for
 /// [_i4.PageHome]
 class RouteHome extends _i12.PageRouteInfo<void> {
   const RouteHome({List<_i12.PageRouteInfo>? children})
-      : super(
-          RouteHome.name,
-          initialChildren: children,
-        );
+      : super(RouteHome.name, initialChildren: children);
 
   static const String name = 'RouteHome';
 
-  static const _i12.PageInfo<void> page = _i12.PageInfo<void>(name);
+  static _i12.PageInfo page = _i12.PageInfo(
+    name,
+    builder: (data) {
+      return const _i4.PageHome();
+    },
+  );
 }
 
 /// generated route for
 /// [_i5.PageLogin]
 class RouteLogin extends _i12.PageRouteInfo<void> {
   const RouteLogin({List<_i12.PageRouteInfo>? children})
-      : super(
-          RouteLogin.name,
-          initialChildren: children,
-        );
+      : super(RouteLogin.name, initialChildren: children);
 
   static const String name = 'RouteLogin';
 
-  static const _i12.PageInfo<void> page = _i12.PageInfo<void>(name);
+  static _i12.PageInfo page = _i12.PageInfo(
+    name,
+    builder: (data) {
+      return const _i5.PageLogin();
+    },
+  );
 }
 
 /// generated route for
@@ -180,24 +113,23 @@ class RouteManual extends _i12.PageRouteInfo<RouteManualArgs> {
     List<_i12.PageRouteInfo>? children,
   }) : super(
           RouteManual.name,
-          args: RouteManualArgs(
-            key: key,
-            manualId: manualId,
-          ),
+          args: RouteManualArgs(key: key, manualId: manualId),
           initialChildren: children,
         );
 
   static const String name = 'RouteManual';
 
-  static const _i12.PageInfo<RouteManualArgs> page =
-      _i12.PageInfo<RouteManualArgs>(name);
+  static _i12.PageInfo page = _i12.PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<RouteManualArgs>();
+      return _i6.PageManual(key: args.key, manualId: args.manualId);
+    },
+  );
 }
 
 class RouteManualArgs {
-  const RouteManualArgs({
-    this.key,
-    required this.manualId,
-  });
+  const RouteManualArgs({this.key, required this.manualId});
 
   final _i13.Key? key;
 
@@ -207,74 +139,94 @@ class RouteManualArgs {
   String toString() {
     return 'RouteManualArgs{key: $key, manualId: $manualId}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! RouteManualArgs) return false;
+    return key == other.key && manualId == other.manualId;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ manualId.hashCode;
 }
 
 /// generated route for
 /// [_i7.PageMyCompany]
 class RouteMyCompany extends _i12.PageRouteInfo<void> {
   const RouteMyCompany({List<_i12.PageRouteInfo>? children})
-      : super(
-          RouteMyCompany.name,
-          initialChildren: children,
-        );
+      : super(RouteMyCompany.name, initialChildren: children);
 
   static const String name = 'RouteMyCompany';
 
-  static const _i12.PageInfo<void> page = _i12.PageInfo<void>(name);
+  static _i12.PageInfo page = _i12.PageInfo(
+    name,
+    builder: (data) {
+      return const _i7.PageMyCompany();
+    },
+  );
 }
 
 /// generated route for
 /// [_i8.PageNothing]
 class RouteNothing extends _i12.PageRouteInfo<void> {
   const RouteNothing({List<_i12.PageRouteInfo>? children})
-      : super(
-          RouteNothing.name,
-          initialChildren: children,
-        );
+      : super(RouteNothing.name, initialChildren: children);
 
   static const String name = 'RouteNothing';
 
-  static const _i12.PageInfo<void> page = _i12.PageInfo<void>(name);
+  static _i12.PageInfo page = _i12.PageInfo(
+    name,
+    builder: (data) {
+      return const _i8.PageNothing();
+    },
+  );
 }
 
 /// generated route for
 /// [_i9.PageRegister]
 class RouteRegister extends _i12.PageRouteInfo<void> {
   const RouteRegister({List<_i12.PageRouteInfo>? children})
-      : super(
-          RouteRegister.name,
-          initialChildren: children,
-        );
+      : super(RouteRegister.name, initialChildren: children);
 
   static const String name = 'RouteRegister';
 
-  static const _i12.PageInfo<void> page = _i12.PageInfo<void>(name);
+  static _i12.PageInfo page = _i12.PageInfo(
+    name,
+    builder: (data) {
+      return const _i9.PageRegister();
+    },
+  );
 }
 
 /// generated route for
 /// [_i10.PageSearch]
 class RouteSearch extends _i12.PageRouteInfo<void> {
   const RouteSearch({List<_i12.PageRouteInfo>? children})
-      : super(
-          RouteSearch.name,
-          initialChildren: children,
-        );
+      : super(RouteSearch.name, initialChildren: children);
 
   static const String name = 'RouteSearch';
 
-  static const _i12.PageInfo<void> page = _i12.PageInfo<void>(name);
+  static _i12.PageInfo page = _i12.PageInfo(
+    name,
+    builder: (data) {
+      return const _i10.PageSearch();
+    },
+  );
 }
 
 /// generated route for
 /// [_i11.PageVideo]
 class RouteVideo extends _i12.PageRouteInfo<void> {
   const RouteVideo({List<_i12.PageRouteInfo>? children})
-      : super(
-          RouteVideo.name,
-          initialChildren: children,
-        );
+      : super(RouteVideo.name, initialChildren: children);
 
   static const String name = 'RouteVideo';
 
-  static const _i12.PageInfo<void> page = _i12.PageInfo<void>(name);
+  static _i12.PageInfo page = _i12.PageInfo(
+    name,
+    builder: (data) {
+      return const _i11.PageVideo();
+    },
+  );
 }

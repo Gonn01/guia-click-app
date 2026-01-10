@@ -1,8 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
 
-// import 'package:isar/isar.dart';
-part 'isar_user.g.dart';
-
 /// {@template IsarUser}
 /// Isar collection for the user.
 /// {@endtemplate}
