@@ -22,10 +22,7 @@ class ManualSearchController {
   // Para Favorites: si seteás ids, filtra localmente.
   Set<int>? _allowedIds;
 
-  PagingState<int, Manual> pagingState = PagingState(
-    hasNextPage: true,
-    isLoading: false,
-  );
+  PagingState<int, Manual> pagingState = PagingState();
 
   void init({
     required String initialQuery,
@@ -79,7 +76,7 @@ class ManualSearchController {
   void setQuery(String query, VoidCallback onStateChanged) {
     _debounce?.cancel();
     _debounce = Timer(Duration(milliseconds: debounceMs), () {
-      pagingState = PagingState(hasNextPage: true, isLoading: true);
+      pagingState = PagingState(isLoading: true);
       onStateChanged();
 
       _searcher.applyState((s) => s.copyWith(query: query, page: 0));
@@ -87,7 +84,7 @@ class ManualSearchController {
   }
 
   void fetchNextPage(VoidCallback onStateChanged) {
-    if (pagingState.hasNextPage != true) return;
+    if (!pagingState.hasNextPage) return;
 
     final nextPage = (pagingState.keys?.last ?? -1) + 1;
     pagingState = pagingState.copyWith(isLoading: true);
@@ -103,7 +100,7 @@ class ManualSearchController {
     // ✅ snapshot() es método
     final currentQuery = _searcher.snapshot().query ?? '';
 
-    pagingState = PagingState(hasNextPage: true, isLoading: true);
+    pagingState = PagingState(isLoading: true);
     onStateChanged();
 
     _searcher.applyState((s) => s.copyWith(query: currentQuery, page: 0));

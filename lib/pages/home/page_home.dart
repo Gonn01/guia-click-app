@@ -6,6 +6,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:guia_click/gen/assets.gen.dart';
 import 'package:guia_click/models/manual.dart';
+import 'package:guia_click/services/local_storage.dart';
 import 'package:guia_click/src/algolia/manual_search_controller.dart';
 import 'package:guia_click/src/auto_route/auto_route.gr.dart';
 import 'package:guia_click/widgets/gc_search_text_field.dart';
@@ -61,6 +62,15 @@ class _ViewHomeState extends State<ViewHome> {
             onTap: () => context.router.push(const RouteFavorites()),
             child: const Icon(Icons.star, color: Colors.amber, size: 35),
           ),
+          actions: [
+            GestureDetector(
+              onTap: () async {
+                await LocalStorage.clearUser();
+                await context.router.push(const RouteLogin());
+              },
+              child: const Icon(Icons.exit_to_app, color: Colors.red, size: 35),
+            ),
+          ],
         ),
         body: Column(
           children: [

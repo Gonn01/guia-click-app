@@ -14,12 +14,11 @@ class AuthGuard extends AutoRouteGuard {
     final user = await LocalStorage.getUser();
 
     if (user != null) {
-      // Abortamos ir a /login y lo reemplazamos por /home
       resolver.next(false);
       await router.replace(const RouteHome());
       return;
     }
 
-    resolver.next(); // deja entrar a /login
+    resolver.next();
   }
 }

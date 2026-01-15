@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:guia_click/pages/auth_repository.dart';
+import 'package:guia_click/pages/auth/repository/auth_repository.dart';
 import 'package:guia_click/pages/auth/register/bloc/register_event.dart';
 import 'package:guia_click/pages/auth/register/bloc/register_state.dart';
 
@@ -8,13 +8,30 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<RegisterNameChanged>((event, emit) {
       emit(state.copyWith(name: event.name));
     });
+
     on<RegisterEmailChanged>((event, emit) {
       emit(state.copyWith(email: event.email));
     });
+
     on<RegisterPasswordChanged>((event, emit) {
       emit(state.copyWith(password: event.password));
     });
+
+    // 👇 nuevo
+    on<RegisterConfirmPasswordChanged>((event, emit) {
+      emit(state.copyWith(confirmPassword: event.confirmPassword));
+    });
+
     on<RegisterSubmitted>((event, emit) async {
+      // validación rápida
+      if (state.password != state.confirmPassword) {
+        emit(state.copyWith(
+          status: FormStatus.failure,
+          errorMessage: 'Las contraseñas no coinciden',
+        ));
+        return;
+      }
+
       emit(state.copyWith(status: FormStatus.submitting));
       try {
         final success = await AuthRepository.register(
@@ -22,23 +39,20 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           state.email,
           state.password,
         );
+
         if (success.body == true) {
           emit(state.copyWith(status: FormStatus.success));
         } else {
-          emit(
-            state.copyWith(
-              status: FormStatus.failure,
-              errorMessage: 'Registration failed',
-            ),
-          );
+          emit(state.copyWith(
+            status: FormStatus.failure,
+            errorMessage: 'Registration failed',
+          ));
         }
       } catch (e) {
-        emit(
-          state.copyWith(
-            status: FormStatus.failure,
-            errorMessage: e.toString(),
-          ),
-        );
+        emit(state.copyWith(
+          status: FormStatus.failure,
+          errorMessage: e.toString(),
+        ));
       }
     });
   }

@@ -1,15 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:guia_click/src/auto_route/auth_guard.dart';
 import 'package:guia_click/src/auto_route/auto_route.gr.dart';
-import 'package:guia_click/src/auto_route/tutorial_guard.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page,Route')
 
 ///
 class AppRouter extends RootStackRouter {
-  ///
-  final TutorialGuard tutorial = TutorialGuard();
-
   ///
   final AuthGuard authGuard = AuthGuard();
 
@@ -29,17 +25,8 @@ class AppRouter extends RootStackRouter {
           path: '/register',
         ),
         AutoRoute(
-          page: RouteVideo.page,
-          path: '/video',
-          guards: [tutorial],
-        ),
-        AutoRoute(
           page: RouteHome.page,
           path: '/home',
-        ),
-        AutoRoute(
-          page: RouteSearch.page,
-          path: '/search',
         ),
         AutoRoute(
           page: RouteManual.page,
@@ -48,18 +35,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           page: RouteFavorites.page,
           path: '/favorites',
-        ),
-        AutoRoute(
-          page: RouteMyCompany.page,
-          path: '/my-company',
-        ),
-        AutoRoute(
-          page: RouteCompanyConfiguration.page,
-          path: '/company-configuration',
-        ),
-        AutoRoute(
-          page: RouteCreateManual.page,
-          path: '/create-manual',
         ),
       ];
 }
