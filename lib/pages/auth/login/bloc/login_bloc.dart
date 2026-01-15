@@ -20,6 +20,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         final response =
             await AuthRepository.login(state.email, state.password);
         await LocalStorage.setUser(user: response.body!);
+        final user = await LocalStorage.getUser();
+        if (user == null) {
+          throw Exception('Error al guardar el usuario localmente');
+        } else {
+          print('Usuario guardado localmente: ${user.email}');
+        }
         emit(state.copyWith(status: FormStatus.success));
       } on Exception catch (e) {
         emit(

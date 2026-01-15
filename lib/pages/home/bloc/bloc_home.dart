@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:guia_click/models/user/isar_user.dart';
+import 'package:guia_click/services/local_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'bloc_home_event.dart';
@@ -19,12 +21,11 @@ class BlocHome extends Bloc<BlocHomeEvent, BlocHomeState> {
   ) async {
     emit(BlocHomeStateLoading.from(state));
     try {
-      final preferences = await SharedPreferences.getInstance();
-      final companyCode = preferences.getString('companyCode');
+      final user = await LocalStorage.getUser();
       emit(
         BlocHomeStateSuccess.from(
           state,
-          companyCode: companyCode,
+          user: user,
         ),
       );
     } on Exception catch (e) {

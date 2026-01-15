@@ -6,7 +6,7 @@ part of 'bloc_home.dart';
 class BlocHomeState {
   /// {@macro BlocDrawerState}
   const BlocHomeState._({
-    this.companyCode,
+    this.user,
   });
 
   /// Utilize the from constructor to create a new instance of the
@@ -14,13 +14,13 @@ class BlocHomeState {
   /// state and update the values that are passed as parameters.
   BlocHomeState.from(
     BlocHomeState previousState, {
-    String? companyCode,
+    User? user,
   }) : this._(
-          companyCode: companyCode ?? previousState.companyCode,
+          user: user ?? previousState.user,
         );
 
   /// Returns the number of pending tasks.
-  final String? companyCode;
+  final User? user;
 }
 
 /// {@template BlocDrawerStateInitial}
@@ -36,7 +36,7 @@ class BlocHomeStateInitial extends BlocHomeState {
 /// {@endtemplate}
 class BlocHomeStateLoading extends BlocHomeState {
   /// {@macro BlocDrawerStateLoading}
-  BlocHomeStateLoading.from(super.previusState) : super.from();
+  BlocHomeStateLoading.from(super.previousState) : super.from();
 }
 
 /// {@template BlocDrawerStateError}
@@ -44,7 +44,7 @@ class BlocHomeStateLoading extends BlocHomeState {
 /// {@endtemplate}
 class BlocHomeStateError extends BlocHomeState {
   /// {@macro BlocDrawerStateError}
-  BlocHomeStateError.from(super.previusState, this.error) : super.from();
+  BlocHomeStateError.from(super.previousState, this.error) : super.from();
   final String error;
 }
 
@@ -54,8 +54,8 @@ class BlocHomeStateError extends BlocHomeState {
 class BlocHomeStateSuccess extends BlocHomeState {
   /// {@macro BlocDrawerStateSuccess}
   BlocHomeStateSuccess.from(
-    super.previusState, {
-    super.companyCode,
+    super.previousState, {
+    super.user,
   }) : super.from();
 }
 
@@ -64,5 +64,6 @@ class BlocHomeStateSuccess extends BlocHomeState {
 /// {@endtemplate}
 class BlocHomeStateSuccessSavingCompanyCode extends BlocHomeState {
   /// {@macro BlocDrawerStateSuccess}
-  BlocHomeStateSuccessSavingCompanyCode.from(super.previusState) : super.from();
+  BlocHomeStateSuccessSavingCompanyCode.from(super.previousState)
+      : super.from();
 }

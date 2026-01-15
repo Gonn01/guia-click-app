@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:guia_click/services/local_storage.dart';
 import 'package:http/http.dart' as http;
 
 /// {@template Repository}
@@ -61,12 +62,14 @@ abstract class Repository {
     }
 
     try {
+      final user = await LocalStorage.getUser();
+      final token = user?.token;
       final urlUri = Uri.parse(url);
       final response = await http.post(
         urlUri,
         headers: {
           'Content-Type': 'application/json',
-          // 'Authorization': token ?? '',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(data),
       );
@@ -104,12 +107,14 @@ abstract class Repository {
     }
 
     try {
+      final user = await LocalStorage.getUser();
+      final token = user?.token;
       final urlUri = Uri.parse(url);
       final response = await http.get(
         urlUri,
         headers: {
           'Content-Type': 'application/json',
-          // 'Authorization': token ?? '',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -146,12 +151,14 @@ abstract class Repository {
     }
 
     try {
+      final user = await LocalStorage.getUser();
+      final token = user?.token;
       final urlUri = Uri.parse(url);
       final response = await http.delete(
         urlUri,
         headers: {
           'Content-Type': 'application/json',
-          // 'Authorization': token ?? '',
+          'Authorization': 'Bearer $token',
         },
       );
 

@@ -17,7 +17,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           page: RouteLogin.page,
           path: '/login',
-          initial: true,
           guards: [authGuard],
         ),
         AutoRoute(
@@ -27,6 +26,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           page: RouteHome.page,
           path: '/home',
+          initial: true,
         ),
         AutoRoute(
           page: RouteManual.page,

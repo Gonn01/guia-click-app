@@ -17,6 +17,11 @@ class BlocManualEventInitialize extends BlocManualEvent {
   final int id;
 }
 
+/// {@template BlocManualEventInitializeLogged}
+/// Check the pending tasks of the user.
+/// {@endtemplate}
+class BlocManualEventInitializeLogged extends BlocManualEvent {}
+
 class BlocManualEventMarkAsFavorite extends BlocManualEvent {
   /// {@macro BlocDrawerEventCheckManual}
   const BlocManualEventMarkAsFavorite(this.id);
